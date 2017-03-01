@@ -1,6 +1,5 @@
-
 #
-# Copyright 2017, Don O'Neill (sntxrr+github@gmail.com)
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,16 +14,15 @@
 # limitations under the License.
 #
 
-name             'hubot-jobbot'
-maintainer       'Akbar Enterprises'
-maintainer_email 'sntxrr+github@gmail.com'
-license          'All rights reserved'
-description      'Installs/Configures hubot-jobbot'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.4'
 
-name 'hangops-jobbot'
+module Poise
+  # Backported features from Chef to be able to use them with older versions.
+  #
+  # @since 2.3.0
+  module Backports
+    autoload :NOT_PASSED, 'poise/backports/not_passed'
+    autoload :VERIFY_PATH, 'poise/backports/verify_path'
+  end
 
-depends 'application'
-depends 'application_git'
-depends 'application_javascript'
+  autoload :NOT_PASSED, 'poise/backports/not_passed'
+end

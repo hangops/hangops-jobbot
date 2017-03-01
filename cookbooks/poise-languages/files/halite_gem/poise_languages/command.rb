@@ -1,6 +1,5 @@
-
 #
-# Copyright 2017, Don O'Neill (sntxrr+github@gmail.com)
+# Copyright 2015-2017, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,16 +14,12 @@
 # limitations under the License.
 #
 
-name             'hubot-jobbot'
-maintainer       'Akbar Enterprises'
-maintainer_email 'sntxrr+github@gmail.com'
-license          'All rights reserved'
-description      'Installs/Configures hubot-jobbot'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.4'
 
-name 'hangops-jobbot'
-
-depends 'application'
-depends 'application_git'
-depends 'application_javascript'
+module PoiseLanguages
+  # A namespace for language-command-related stuff.
+  #
+  # @since 1.0.0
+  module Command
+    autoload :Mixin, 'poise_languages/command/mixin'
+  end
+end
