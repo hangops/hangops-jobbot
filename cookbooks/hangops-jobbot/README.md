@@ -76,5 +76,5 @@ e.g.
 
 ## License and Authors
 
-Authors: TODO: List authors
+Authors: Don O'Neill (sntxrr+github@gmail.com)
 
