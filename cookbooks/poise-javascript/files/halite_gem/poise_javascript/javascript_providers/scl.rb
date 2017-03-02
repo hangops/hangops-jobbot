@@ -20,7 +20,6 @@ require 'poise_languages'
 require 'poise_javascript/error'
 require 'poise_javascript/javascript_providers/base'
 
-
 module PoiseJavascript
   module JavascriptProviders
     class Scl < Base
@@ -46,8 +45,6 @@ module PoiseJavascript
       def uninstall_javascript
         uninstall_scl_package
       end
-
     end
   end
 end
-

@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseApplicationGit
-  VERSION = '1.1.0'
+  VERSION = '1.1.0'.freeze
 end

@@ -16,14 +16,13 @@
 
 require 'poise_service/service_providers/base'
 
-
 module PoiseService
   module ServiceProviders
     class Sysvinit < Base
       provides(:sysvinit)
 
-      def self.provides_auto?(node, resource)
-        [:debian, :redhat, :invokercd].any? {|name| service_resource_hints.include?(name) }
+      def self.provides_auto?(_node, _resource)
+        [:debian, :redhat, :invokercd].any? { |name| service_resource_hints.include?(name) }
       end
 
       def pid
@@ -35,13 +34,13 @@ module PoiseService
       def service_resource
         super.tap do |r|
           r.provider(case node['platform_family']
-          when 'debian'
-            Chef::Provider::Service::Debian
-          when 'rhel'
-            Chef::Provider::Service::Redhat
-          else
-            # Better than nothing I guess? Will fail on enable I think.
-            Chef::Provider::Service::Init
+                     when 'debian'
+                       Chef::Provider::Service::Debian
+                     when 'rhel'
+                       Chef::Provider::Service::Redhat
+                     else
+                       # Better than nothing I guess? Will fail on enable I think.
+                       Chef::Provider::Service::Init
           end)
           r.init_command(script_path)
           # Pending https://github.com/chef/chef/pull/4709.
@@ -58,8 +57,8 @@ module PoiseService
         # start-stop-daemon since it treats those differently.
         parts = new_resource.command.split(/ /, 2)
         daemon = ENV['PATH'].split(/:/)
-          .map {|path| ::File.absolute_path(parts[0], path) }
-          .find {|path| ::File.exist?(path) } || parts[0]
+                            .map { |path| ::File.absolute_path(parts[0], path) }
+                            .find { |path| ::File.exist?(path) } || parts[0]
         # Sigh scoping.
         pid_file_ = pid_file
         # Render the service template
@@ -70,7 +69,7 @@ module PoiseService
             daemon_options: parts[1].to_s,
             pid_file: pid_file_,
             pid_file_external: options['pid_file_external'].nil? ? !!options['pid_file'] : options['pid_file_external'],
-            platform_family: node['platform_family'],
+            platform_family: node['platform_family']
           )
         end
       end

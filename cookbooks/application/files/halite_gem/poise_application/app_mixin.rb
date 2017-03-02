@@ -19,7 +19,6 @@ require 'poise/provider'
 require 'poise/resource'
 require 'poise/utils'
 
-
 module PoiseApplication
   # A helper mixin for application resources and providers. These are things
   # intended to be used as subresources of the `application` resource.

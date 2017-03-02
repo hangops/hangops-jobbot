@@ -16,7 +16,6 @@
 
 require 'poise_languages/scl/resource'
 
-
 module PoiseLanguages
   module Scl
     module Mixin
@@ -40,7 +39,7 @@ module PoiseLanguages
 
       def scl_package
         @scl_package ||= self.class.find_scl_package(node, options['version']).tap do |p|
-          raise PoiseLanguages::Error.new("No SCL repoistory package for #{node['platform']} #{node['platform_version']}") unless p
+          raise PoiseLanguages::Error, "No SCL repoistory package for #{node['platform']} #{node['platform_version']}" unless p
         end
       end
 
@@ -56,7 +55,7 @@ module PoiseLanguages
       #
       # @param path [String] Path to the enable file.
       # @return [Hash<String, String>]
-      def parse_enable_file(path, env={})
+      def parse_enable_file(path, env = {})
         # Doesn't exist yet, so running Python will fail anyway. Just make sure
         # it fails in the expected way.
         return {} unless File.exist?(path)
@@ -64,9 +63,9 @@ module PoiseLanguages
         IO.readlines(path).inject(env) do |memo, line|
           if match = line.match(/^export (\w+)=(.*)$/)
             memo[match[1]] = match[2].gsub(/\$(?:\{(\w+)(:\+:\$\{\w+\})?\}|(\w+))/) do
-              key = $1 || $3
+              key = Regexp.last_match(1) || Regexp.last_match(3)
               value = (memo[key] || ENV[key]).to_s
-              value = ":#{value}" if $2 && !value.empty?
+              value = ":#{value}" if Regexp.last_match(2) && !value.empty?
               value
             end
           elsif match = line.match(/^\. scl_source enable (\w+)$/)
@@ -92,23 +91,22 @@ module PoiseLanguages
         #
         # @api private
         def default_inversion_options(node, resource)
-          super.merge({
-            # Install dev headers?
+          super.merge( # Install dev headers?
             dev_package: true,
             # Manual overrides for package name and/or version.
             package_name: nil,
             package_version: nil,
             # Set to true to use action :upgrade on system packages.
-            package_upgrade: false,
-          })
+            package_upgrade: false
+          )
         end
 
         def find_scl_package(node, version)
           platform_version = ::Gem::Version.create(node['platform_version'])
           # Filter out anything that doesn't match this EL version.
-          candidate_packages = scl_packages.select {|p| p[:platform_version].satisfied_by?(platform_version) }
+          candidate_packages = scl_packages.select { |p| p[:platform_version].satisfied_by?(platform_version) }
           # Find something with a prefix match on the Python version.
-          candidate_packages.find {|p| p[:version].start_with?(version) }
+          candidate_packages.find { |p| p[:version].start_with?(version) }
         end
 
         private
@@ -117,8 +115,8 @@ module PoiseLanguages
           @scl_packages ||= []
         end
 
-        def scl_package(version, name, devel_name=nil, platform_version='>= 6.0')
-          scl_packages << {version: version, name: name, devel_name: devel_name, platform_version: ::Gem::Requirement.create(platform_version)}
+        def scl_package(version, name, devel_name = nil, platform_version = '>= 6.0')
+          scl_packages << { version: version, name: name, devel_name: devel_name, platform_version: ::Gem::Requirement.create(platform_version) }
         end
 
         def included(klass)
@@ -128,7 +126,6 @@ module PoiseLanguages
       end
 
       extend ClassMethods
-
     end
   end
 end

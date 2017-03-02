@@ -18,7 +18,6 @@ require 'poise/utils'
 
 require 'poise_application/app_mixin'
 
-
 module PoiseApplication
   # A helper mixin for `file`-like resources to make them take application
   # resource data. Relative paths are expanded against the application path and

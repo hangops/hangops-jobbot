@@ -18,7 +18,6 @@ require 'chef/mash'
 
 require 'poise/error'
 
-
 module Poise
   module Helpers
     # A resource mixin to add a new kind of attribute, an option collector.
@@ -76,7 +75,7 @@ module Poise
       module ClassMethods
         # Override the normal #attribute() method to support defining option
         # collectors too.
-        def attribute(name, options={})
+        def attribute(name, options = {})
           # If present but false-y, make sure it is removed anyway so it
           # doesn't confuse ParamsValidate.
           if options.delete(:option_collector)
@@ -96,11 +95,11 @@ module Poise
         # @param forced_keys [Array<Symbol>, Set<Symbol>] Method names that will be forced
         #   to be options rather than calls to the parent resource.
         def option_collector_attribute(name, default: {}, parser: nil, forced_keys: Set.new)
-          raise Poise::Error.new("Parser must be a Proc or Symbol: #{parser.inspect}") if parser && !(parser.is_a?(Proc) || parser.is_a?(Symbol))
+          raise Poise::Error, "Parser must be a Proc or Symbol: #{parser.inspect}" if parser && !(parser.is_a?(Proc) || parser.is_a?(Symbol))
           # Cast to a set at definition time.
           forced_keys = Set.new(forced_keys) unless forced_keys.is_a?(Set)
           # Unlike LWRPBase.attribute, I don't care about Ruby 1.8. Worlds tiniest violin.
-          define_method(name.to_sym) do |arg=nil, &block|
+          define_method(name.to_sym) do |arg = nil, &block|
             iv_sym = :"@#{name}"
 
             value = instance_variable_get(iv_sym) || begin
@@ -116,7 +115,7 @@ module Poise
                         send(parser, arg)
                       end
               end
-              raise Exceptions::ValidationFailed, "Option #{name} must be a Hash" if !arg.is_a?(Hash)
+              raise Exceptions::ValidationFailed, "Option #{name} must be a Hash" unless arg.is_a?(Hash)
               # Should this and the update below be a deep merge?
               value.update(arg)
             end

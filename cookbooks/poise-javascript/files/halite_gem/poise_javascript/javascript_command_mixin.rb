@@ -17,7 +17,6 @@
 require 'poise/utils'
 require 'poise_languages'
 
-
 module PoiseJavascript
   # Mixin for resources and providers which run Javascript commands.
   #

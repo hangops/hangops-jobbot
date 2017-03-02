@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseService
   autoload :Error, 'poise_service/error'
   autoload :Resources, 'poise_service/resources'

@@ -18,7 +18,6 @@ require 'poise_javascript/resources/javascript_execute'
 
 require 'poise_application_javascript/app_mixin'
 
-
 module PoiseApplicationJavascript
   module Resources
     # (see JavascriptExecute::Resource)
@@ -82,7 +81,6 @@ module PoiseApplicationJavascript
           end
         end
       end
-
     end
   end
 end

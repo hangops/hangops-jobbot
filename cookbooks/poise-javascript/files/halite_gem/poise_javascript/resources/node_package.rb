@@ -22,7 +22,6 @@ require 'poise'
 require 'poise_javascript/error'
 require 'poise_javascript/javascript_command_mixin'
 
-
 module PoiseJavascript
   module Resources
     # (see NodePackage::Resource)
@@ -43,7 +42,7 @@ module PoiseJavascript
         include PoiseJavascript::JavascriptCommandMixin
         provides(:node_package)
         # Manually create matchers because #actions is unreliable.
-        %i{install upgrade remove}.each do |action|
+        %i(install upgrade remove).each do |action|
           Poise::Helpers::ChefspecMatchers.create_matcher(:node_package, action)
         end
 
@@ -79,12 +78,12 @@ module PoiseJavascript
         # @api private
         # @param arg [Object] Ignored
         # @return [nil]
-        def response_file(arg=nil)
+        def response_file(arg = nil)
           raise NoMethodError if arg
         end
 
         # (see #response_file)
-        def response_file_variables(arg=nil)
+        def response_file_variables(arg = nil)
           raise NoMethodError if arg && arg != {}
         end
       end
@@ -114,9 +113,9 @@ module PoiseJavascript
         #   Resource to load for.
         # @return [void]
         def check_package_versions(resource)
-          version_data = Hash.new {|hash, key| hash[key] = {current: nil, candidate: nil} }
+          version_data = Hash.new { |hash, key| hash[key] = { current: nil, candidate: nil } }
           # Get the version for everything currently installed.
-          list_args = npm_version?('>= 1.4.16') ? %w{--depth 0} : []
+          list_args = npm_version?('>= 1.4.16') ? %w(--depth 0) : []
           npm_shell_out!('list', list_args).fetch('dependencies', {}).each do |pkg_name, pkg_data|
             version_data[pkg_name][:current] = pkg_data['version']
           end
@@ -124,15 +123,15 @@ module PoiseJavascript
           # to look for candidate versions. Older npm doesn't support --json
           # here so you get slow behavior, sorry.
           requested_packages = Set.new(Array(resource.package_name))
-          if npm_version?('>= 1.3.16') && version_data.any? {|pkg_name, _pkg_vers| requested_packages.include?(pkg_name) }
+          if npm_version?('>= 1.3.16') && version_data.any? { |pkg_name, _pkg_vers| requested_packages.include?(pkg_name) }
             outdated = npm_shell_out!('outdated') || {}
             version_data.each do |pkg_name, pkg_vers|
               pkg_vers[:candidate] = if outdated.include?(pkg_name)
-                outdated[pkg_name]['wanted']
-              else
-                # If it was already installed and not listed in outdated, it
-                # must have been up to date already.
-                pkg_vers[:current]
+                                       outdated[pkg_name]['wanted']
+                                     else
+                                       # If it was already installed and not listed in outdated, it
+                                       # must have been up to date already.
+                                       pkg_vers[:current]
               end
             end
           end
@@ -142,7 +141,7 @@ module PoiseJavascript
           end
           # Populate the current resource and candidate versions. Youch this is
           # a gross mix of data flow.
-          if(resource.package_name.is_a?(Array))
+          if resource.package_name.is_a?(Array)
             @candidate_version = []
             versions = []
             [resource.package_name].flatten.each do |name|
@@ -182,14 +181,14 @@ module PoiseJavascript
         end
 
         # Upgrade and install are the same for NPM.
-        alias_method :upgrade_package, :install_package
+        alias upgrade_package install_package
 
         # Uninstall package(s) using npm.
         #
         # @param name [String, Array<String>] Name(s) of package(s).
         # @param version [String, Array<String>] Version(s) of package(s).
         # @return [void]
-        def remove_package(name, version)
+        def remove_package(name, _version)
           npm_shell_out!('uninstall', [name].flatten, parse_json: false)
         end
 
@@ -201,7 +200,7 @@ module PoiseJavascript
         # @param args [Array<String>] Command arguments.
         # @param parse_json [Boolean] Parse the JSON on stdout.
         # @return [Hash]
-        def npm_shell_out!(subcmd, args=[], parse_json: true)
+        def npm_shell_out!(subcmd, args = [], parse_json: true)
           cmd = [new_resource.npm_binary, subcmd, '--json']
           # If path is nil, we are in global mode.
           cmd << '--global' unless new_resource.path
@@ -210,7 +209,7 @@ module PoiseJavascript
           # If we are in global mode, cwd will be nil so probably just fine. Add
           # the directory for the node binary to $PATH for post-install stuffs.
           new_path = [::File.dirname(new_resource.javascript), ENV['PATH'].to_s].join(::File::PATH_SEPARATOR)
-          out = javascript_shell_out!(cmd, cwd: new_resource.path, group: new_resource.group, user: new_resource.user, environment: {'PATH' => new_path})
+          out = javascript_shell_out!(cmd, cwd: new_resource.path, group: new_resource.group, user: new_resource.user, environment: { 'PATH' => new_path })
           if parse_json
             # Parse the JSON.
             if out.stdout.strip.empty?
@@ -233,9 +232,9 @@ module PoiseJavascript
             # The line we want looks like:
             # npm: '2.12.1'
             if out.stdout =~ /npm: '([^']+)'/
-              Gem::Version.new($1)
+              Gem::Version.new(Regexp.last_match(1))
             else
-              raise PoiseJavascript::Error.new("Unable to parse NPM version from #{out.stdout.inspect}")
+              raise PoiseJavascript::Error, "Unable to parse NPM version from #{out.stdout.inspect}"
             end
           end
         end
@@ -247,7 +246,6 @@ module PoiseJavascript
         def npm_version?(req)
           Gem::Requirement.new(req).satisfied_by?(npm_version)
         end
-
       end
     end
   end

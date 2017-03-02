@@ -16,7 +16,6 @@
 
 require 'poise_application/app_file_mixin'
 
-
 module PoiseApplication
   module Resources
     # (see ApplicationTemplate::Resource)
@@ -48,7 +47,6 @@ module PoiseApplication
           @resource_name = :application_template
         end
       end
-
     end
   end
 end

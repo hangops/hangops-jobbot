@@ -16,7 +16,6 @@
 
 require 'chef/mixin/convert_to_class_name'
 
-
 module Poise
   module Helpers
     # A resource mixin to automatically set @resource_name.
@@ -57,7 +56,7 @@ module Poise
           if self.name && respond_to?(:constantize)
             old_constantize = instance_method(:constantize)
             define_singleton_method(:constantize) do |const_name|
-              ( const_name == self.name ) ? self : old_constantize.bind(self).call(const_name)
+              (const_name == self.name) ? self : old_constantize.bind(self).call(const_name)
             end
           end
           # Store the name for later.
@@ -71,20 +70,20 @@ module Poise
         #
         # @param auto [Boolean] Try to auto-detect based on class name.
         # @return [Symbol]
-        def resource_name(auto=true)
+        def resource_name(auto = true)
           # In 12.4+ we need to proxy through the super class for setting.
           return super(auto) if defined?(super) && (auto.is_a?(Symbol) || auto.is_a?(String))
           return @provides_name unless auto
           @provides_name || if name
-            mode = if name.start_with?('Chef::Resource')
-              [name, 'Chef::Resource']
-            else
-              [name.split('::').last]
-            end
-            Chef::Mixin::ConvertToClassName.convert_to_snake_case(*mode).to_sym
-          elsif defined?(super)
-            # No name on 12.4+ probably means this is an LWRP, use super().
-            super()
+                              mode = if name.start_with?('Chef::Resource')
+                                       [name, 'Chef::Resource']
+                                     else
+                                       [name.split('::').last]
+                              end
+                              Chef::Mixin::ConvertToClassName.convert_to_snake_case(*mode).to_sym
+                            elsif defined?(super)
+                              # No name on 12.4+ probably means this is an LWRP, use super().
+                              super()
           end
         end
 

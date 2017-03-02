@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseApplicationJavascript
   autoload :AppMixin, 'poise_application_javascript/app_mixin'
   autoload :Error, 'poise_application_javascript/error'

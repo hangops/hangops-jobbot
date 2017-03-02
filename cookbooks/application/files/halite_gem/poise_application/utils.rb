@@ -16,7 +16,6 @@
 
 require 'etc'
 
-
 module PoiseApplication
   # Utility methods for PoiseApplication.
   #
@@ -34,13 +33,13 @@ module PoiseApplication
     # @example
     #   attribute(:group, kind_of: [String, Integer], default: lazy { PoiseApplication::Utils.primary_group_for(user) })
     def primary_group_for(user)
-       # Force a reload in case any users were created earlier in the run.
+      # Force a reload in case any users were created earlier in the run.
       Etc.endpwent
       Etc.endgrent
       user = if user.is_a?(Integer)
-        Etc.getpwuid(user)
-      else
-        Etc.getpwnam(user.to_s)
+               Etc.getpwuid(user)
+             else
+               Etc.getpwnam(user.to_s)
       end
       Etc.getgrgid(user.gid).name
     rescue ArgumentError

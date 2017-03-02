@@ -22,7 +22,6 @@ require 'poise'
 
 require 'poise_service/error'
 
-
 module PoiseService
   module Resources
     # (see PoiseService::Resource)
@@ -120,10 +119,10 @@ module PoiseService
         def default_directory
           # Default fallback.
           sysroot = case node['platform_family']
-          when 'windows'
-            ENV.fetch('SystemRoot', 'C:\\')
-          else
-            '/'
+                    when 'windows'
+                      ENV.fetch('SystemRoot', 'C:\\')
+                    else
+                      '/'
           end
           # For root we always want the system root path.
           return sysroot if user == 'root'
@@ -148,12 +147,12 @@ module PoiseService
         # @return [String]
         def clean_signal(signal)
           if signal.is_a?(Integer)
-            raise Error.new("Unknown signal #{signal}") unless (0..31).include?(signal)
+            raise Error, "Unknown signal #{signal}" unless (0..31).cover?(signal)
             Signal.signame(signal)
           else
             short_sig = signal.to_s.upcase
             short_sig = short_sig[3..-1] if short_sig.start_with?('SIG')
-            raise Error.new("Unknown signal #{signal}") unless Signal.list.include?(short_sig)
+            raise Error, "Unknown signal #{signal}" unless Signal.list.include?(short_sig)
             short_sig
           end
         end

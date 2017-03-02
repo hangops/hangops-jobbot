@@ -23,7 +23,6 @@ require 'poise_service/utils'
 require 'poise_application/app_mixin'
 require 'poise_application/utils'
 
-
 module PoiseApplication
   # Mixin for application services. This is any resource that will be part of
   # an application deployment and involves running a persistent service.

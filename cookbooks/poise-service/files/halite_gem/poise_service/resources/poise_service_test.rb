@@ -18,7 +18,6 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
-
 module PoiseService
   module Resources
     # (see PoiseServiceTest::Resource)
@@ -62,7 +61,7 @@ module PoiseService
         include Poise
         provides(:poise_service_test)
 
-        SERVICE_SCRIPT = <<-EOH
+        SERVICE_SCRIPT = <<-EOH.freeze
 require 'webrick'
 require 'json'
 require 'etc'
@@ -174,7 +173,7 @@ EOH
             stop_signal 'kill'
           end
 
-          {'restart' => 3, 'reload' => 4}.each do |action, port|
+          { 'restart' => 3, 'reload' => 4 }.each do |action, port|
             # Stop it before writing the file so we always start with first.
             poise_service "poise_test_#{new_resource.name}_#{action} stop" do
               if new_resource.service_provider
@@ -232,7 +231,6 @@ EOH
             end
             command "/usr/bin/poise_test #{new_resource.base_port + 6}"
           end
-
         end
       end
     end

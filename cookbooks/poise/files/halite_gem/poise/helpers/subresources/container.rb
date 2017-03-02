@@ -19,7 +19,6 @@ require 'chef/dsl/recipe'
 require 'poise/helpers/subcontext_block'
 require 'poise/helpers/subresources/default_containers'
 
-
 module Poise
   module Helpers
     module Subresources
@@ -93,7 +92,7 @@ module Poise
                 @run_context.resource_collection.insert(r)
               end
               # Copy all notifications to the outer context.
-              %w{immediate delayed}.each do |notification_type|
+              %w(immediate delayed).each do |notification_type|
                 ctx.send(:"#{notification_type}_notification_collection").each do |key, notifications|
                   notifications.each do |notification|
                     parent_notifications = @run_context.send(:"#{notification_type}_notification_collection")[key]
@@ -108,7 +107,7 @@ module Poise
           end
         end
 
-        def declare_resource(type, name, created_at=nil, &block)
+        def declare_resource(type, name, created_at = nil, &block)
           Chef::Log.debug("[#{self}] Creating subresource from #{type}(#{name})")
           self_ = self
           # Used to break block context, non-local return from subcontext_block.
@@ -120,22 +119,22 @@ module Poise
           # It will end up added later, indirected via @subresources to ensure ordering.
           @subcontexts << subcontext_block do
             namespace = if self.class.container_namespace == true
-              # If the value is true, use the name of the container resource.
-              self.name
-            elsif self.class.container_namespace.is_a?(Proc)
-              instance_eval(&self.class.container_namespace)
-            else
-              self.class.container_namespace
+                          # If the value is true, use the name of the container resource.
+                          self.name
+                        elsif self.class.container_namespace.is_a?(Proc)
+                          instance_eval(&self.class.container_namespace)
+                        else
+                          self.class.container_namespace
             end
             sub_name = if name && !name.empty?
-              if namespace
-                "#{namespace}::#{name}"
-              else
-                name
-              end
-            else
-              # If you pass in nil or '', you just get the namespace or parent name.
-              namespace || self.name
+                         if namespace
+                           "#{namespace}::#{name}"
+                         else
+                           name
+                         end
+                       else
+                         # If you pass in nil or '', you just get the namespace or parent name.
+                         namespace || self.name
             end
             resource << super(type, sub_name, created_at) do
               # Apply the correct parent before anything else so it is available
@@ -183,7 +182,7 @@ module Poise
 
         # @!classmethods
         module ClassMethods
-          def container_namespace(val=nil)
+          def container_namespace(val = nil)
             @container_namespace = val unless val.nil?
             if @container_namespace.nil?
               # Not set here, look at the superclass or true by default for backwards compat.
@@ -204,7 +203,7 @@ module Poise
           #   @since 2.3.0
           #   @param val [Boolean] Default mode to set.
           #   @return [Boolean]
-          def container_default(val=nil)
+          def container_default(val = nil)
             @container_default = val unless val.nil?
             if @container_default.nil?
               # Not set here, look at the superclass or true by default for backwards compat.

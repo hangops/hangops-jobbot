@@ -18,7 +18,6 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
-
 module PoiseLanguages
   module System
     # A `poise_language_system` resource to manage installing a language from
@@ -75,11 +74,7 @@ module PoiseLanguages
         suffix = node.value_for_platform_family(debian: '-dev', rhel: '-devel', fedora: '-devel')
         # Platforms like Arch and Gentoo don't need this anyway. I've got no
         # clue how Amazon Linux does this.
-        if suffix
-          package_name + suffix
-        else
-          nil
-        end
+        package_name + suffix if suffix
       end
     end
 
@@ -125,7 +120,7 @@ module PoiseLanguages
       #
       # @return [Array<Chef::Resource::Package>]
       def package_resources(action)
-        packages = {new_resource.package_name => new_resource.package_version}
+        packages = { new_resource.package_name => new_resource.package_version }
         # If we are supposed to install the dev package, grab it using the same
         # version as the main package.
         if new_resource.dev_package
@@ -135,22 +130,22 @@ module PoiseLanguages
         Chef::Log.debug("[#{new_resource.parent}] Building package resource using #{packages.inspect}.")
         package_resource_class = Chef::Resource.resource_for_node(:package, node)
         @package_resource ||= if node.platform_family?('rhel', 'fedora', 'amazon', 'mac_os_x')
-          # @todo Can't use multi-package mode with yum pending https://github.com/chef/chef/issues/3476.
-          packages.map do |name, version|
-            package_resource_class.new(name, run_context).tap do |r|
-              r.version(version)
-              r.action(action)
-              r.declared_type = :package
-              r.retries(5)
-            end
-          end
-        else
-          [package_resource_class.new(packages.keys, run_context).tap do |r|
-            r.version(packages.values)
-            r.action(action)
-            r.declared_type = :package
-            r.retries(5)
-          end]
+                                # @todo Can't use multi-package mode with yum pending https://github.com/chef/chef/issues/3476.
+                                packages.map do |name, version|
+                                  package_resource_class.new(name, run_context).tap do |r|
+                                    r.version(version)
+                                    r.action(action)
+                                    r.declared_type = :package
+                                    r.retries(5)
+                                  end
+                                end
+                              else
+                                [package_resource_class.new(packages.keys, run_context).tap do |r|
+                                  r.version(packages.values)
+                                  r.action(action)
+                                  r.declared_type = :package
+                                  r.retries(5)
+                                end]
         end
       end
 
@@ -191,25 +186,23 @@ module PoiseLanguages
           # the normal code.
           define_method(:load_current_resource) do
             super().tap do |_|
-              each_package do |package_name, new_version, current_version, candidate_version|
+              each_package do |package_name, _new_version, _current_version, candidate_version|
                 # In Chef 12.14+, candidate_version is a Chef::Decorator::Lazy object
                 # so we need the nil? check to see if the object being proxied is
                 # nil (i.e. there is no version).
-                unless candidate_version && (!candidate_version.nil?) && (!candidate_version.empty?) && candidate_version.start_with?(version)
-                  # Don't display a wonky error message if there is no candidate.
-                  candidate_label = if candidate_version && (!candidate_version.nil?) && (!candidate_version.empty?)
-                    candidate_version
-                  else
-                    candidate_version.inspect
-                  end
-                  raise PoiseLanguages::Error.new("Package #{package_name} would install #{candidate_label}, which does not match #{version.empty? ? version.inspect : version}. Please set the package_name or package_version provider options.")
+                next if candidate_version && !candidate_version.nil? && !candidate_version.empty? && candidate_version.start_with?(version)
+                # Don't display a wonky error message if there is no candidate.
+                candidate_label = if candidate_version && !candidate_version.nil? && !candidate_version.empty?
+                                    candidate_version
+                                  else
+                                    candidate_version.inspect
                 end
+                raise PoiseLanguages::Error, "Package #{package_name} would install #{candidate_label}, which does not match #{version.empty? ? version.inspect : version}. Please set the package_name or package_version provider options."
               end
             end
           end
         }
       end
-
     end
   end
 end

@@ -16,7 +16,6 @@
 
 require 'chef/provider'
 
-
 module Poise
   module Helpers
     # Resource mixin to create "fused" resources where the resource and provider
@@ -77,9 +76,7 @@ module Poise
         def action(name, &block)
           fused_actions[name.to_sym] = block
           # Make sure this action is allowed, also sets the default if first.
-          if respond_to?(:actions)
-            actions(name.to_sym)
-          end
+          actions(name.to_sym) if respond_to?(:actions)
         end
 
         # Storage accessor for fused action blocks. Maps action name to proc.
@@ -99,12 +96,12 @@ module Poise
         def fused_provider_class
           @fused_provider_class ||= begin
             provider_superclass = begin
-              self.superclass.fused_provider_class
+              superclass.fused_provider_class
             rescue NoMethodError
               Chef::Provider
             end
             actions = fused_actions
-            class_name = self.name
+            class_name = name
             Class.new(provider_superclass) do
               include Poise
               define_singleton_method(:name) { class_name + ' (fused)' }

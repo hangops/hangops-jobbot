@@ -19,7 +19,6 @@ require 'poise_application/resources/application_cookbook_file'
 require 'poise_application/resources/application_file'
 require 'poise_application/resources/application_template'
 
-
 module PoiseApplication
   # Chef resources and providers for poise-application.
   #

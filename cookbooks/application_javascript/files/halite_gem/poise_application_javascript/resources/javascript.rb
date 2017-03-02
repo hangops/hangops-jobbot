@@ -18,7 +18,6 @@ require 'poise_javascript/resources/javascript_runtime'
 
 require 'poise_application_javascript/app_mixin'
 
-
 module PoiseApplicationJavascript
   module Resources
     # (see Javascript::Resource)
@@ -53,11 +52,10 @@ module PoiseApplicationJavascript
         #
         # @api private
         def after_created
-          super.tap do |val|
+          super.tap do |_val|
             app_state_javascript(self)
           end
         end
-
       end
     end
   end

@@ -18,13 +18,12 @@ require 'chef/util/file_edit'
 
 require 'poise_service/service_providers/base'
 
-
 module PoiseService
   module ServiceProviders
     class Inittab < Base
       provides(:inittab)
 
-      def self.provides_auto?(node, resource)
+      def self.provides_auto?(_node, _resource)
         ::File.exist?('/etc/inittab')
       end
 
@@ -45,7 +44,7 @@ module PoiseService
       end
 
       def action_stop
-        raise NotImplementedError.new("[#{new_resource}] Inittab services cannot be stopped")
+        raise NotImplementedError, "[#{new_resource}] Inittab services cannot be stopped"
       end
 
       def action_restart
@@ -80,7 +79,7 @@ module PoiseService
         service_template("/sbin/poise_service_#{new_resource.service_name}", 'inittab.sh.erb') do
           mode '755'
           variables.update(
-            pid_file: pid_file_,
+            pid_file: pid_file_
           )
         end
         # Add to inittab.
@@ -133,10 +132,10 @@ module PoiseService
         options['pid_file'] || "/var/run/#{new_resource.service_name}.pid"
       end
 
-      def edit_inittab(&block)
+      def edit_inittab
         inittab = IO.read('/etc/inittab')
         original_inittab = inittab.dup
-        block.call(inittab)
+        yield(inittab)
         if inittab != original_inittab
           file '/etc/inittab' do
             content inittab

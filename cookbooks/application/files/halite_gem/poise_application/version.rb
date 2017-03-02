@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseApplication
-  VERSION = '5.1.0'
+  VERSION = '5.1.0'.freeze
 end

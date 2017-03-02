@@ -22,16 +22,15 @@ require 'chef/mixin/shell_out'
 require 'poise_service/error'
 require 'poise_service/service_providers/base'
 
-
 module PoiseService
   module ServiceProviders
     class Upstart < Base
       include Chef::Mixin::ShellOut
       provides(:upstart)
 
-      def self.provides_auto?(node, resource)
+      def self.provides_auto?(node, _resource)
         # Don't allow upstart under docker, it won't work.
-        return false if node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
+        return false if node['virtualization'] && %w(docker lxc).include?(node['virtualization']['system'])
         service_resource_hints.include?(:upstart)
       end
 
@@ -60,11 +59,9 @@ module PoiseService
       end
 
       def pid
-        cmd = shell_out(%w{initctl status} + [new_resource.service_name])
+        cmd = shell_out(%w(initctl status) + [new_resource.service_name])
         if !cmd.error? && md = cmd.stdout.match(/process (\d+)/)
           md[1].to_i
-        else
-          nil
         end
       end
 
@@ -82,7 +79,7 @@ module PoiseService
         features = upstart_features
         service_template("/etc/init/#{new_resource.service_name}.conf", 'upstart.conf.erb') do
           variables.update(
-            upstart_features: features,
+            upstart_features: features
           )
         end
       end
@@ -94,7 +91,7 @@ module PoiseService
       end
 
       def upstart_version
-        cmd = shell_out(%w{initctl --version})
+        cmd = shell_out(%w(initctl --version))
         if !cmd.error? && md = cmd.stdout.match(/upstart ([^)]+)\)/)
           md[1]
         else
@@ -108,7 +105,7 @@ module PoiseService
           versions_added = {
             kill_signal: '1.3',
             reload_signal: '1.10',
-            setuid: '1.4',
+            setuid: '1.4'
           }
           versions_added.inject({}) do |memo, (feature, version)|
             memo[feature] = Gem::Requirement.create(">= #{version}").satisfied_by?(upstart_ver)
@@ -119,10 +116,9 @@ module PoiseService
 
       def check_reload_signal!
         if !options['reload_shim'] && !upstart_features[:reload_signal] && new_resource.reload_signal != 'HUP'
-          raise Error.new("Upstart #{upstart_version} only supports HUP for reload, to use the shim please set the 'reload_shim' options for #{new_resource.to_s}")
+          raise Error, "Upstart #{upstart_version} only supports HUP for reload, to use the shim please set the 'reload_shim' options for #{new_resource}"
         end
       end
-
     end
   end
 end

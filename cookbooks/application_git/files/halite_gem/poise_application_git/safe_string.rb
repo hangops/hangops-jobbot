@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseApplicationGit
   # A string that won't be shown in Chef error output
   class SafeString < String

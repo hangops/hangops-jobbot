@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module Poise
   module Utils
     # A mixin to dispatch other mixins with resource and provider

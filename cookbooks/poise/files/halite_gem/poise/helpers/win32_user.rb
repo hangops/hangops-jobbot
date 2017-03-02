@@ -16,7 +16,6 @@
 
 require 'poise/utils/win32'
 
-
 module Poise
   module Helpers
     # A resource mixin to intercept properties named `user`, `group`, or `owner`,
@@ -39,15 +38,15 @@ module Poise
     module Win32User
       # User-ish property names.
       # @api private
-      USER_PROPERTIES = ['user', :user, 'owner', :owner]
+      USER_PROPERTIES = ['user', :user, 'owner', :owner].freeze
 
       # Group-ish property names.
       # @api private
-      GROUP_PROPERTIES = ['group', :group]
+      GROUP_PROPERTIES = ['group', :group].freeze
 
       # Intercept property access to swap out the default value.
       # @api private
-      def set_or_return(symbol, arg, options={})
+      def set_or_return(symbol, arg, options = {})
         if options && options[:default] == 'root'
           if USER_PROPERTIES.include?(symbol) && node.platform_family?('windows')
             options = options.dup

@@ -18,7 +18,6 @@ require 'poise_javascript/resources/npm_install'
 
 require 'poise_application_javascript/app_mixin'
 
-
 module PoiseApplicationJavascript
   module Resources
     # (see NpmInstall::Resource)

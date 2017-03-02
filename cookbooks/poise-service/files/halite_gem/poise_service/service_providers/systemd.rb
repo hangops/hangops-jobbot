@@ -18,7 +18,6 @@ require 'chef/mixin/shell_out'
 
 require 'poise_service/service_providers/base'
 
-
 module PoiseService
   module ServiceProviders
     class Systemd < Base
@@ -26,28 +25,25 @@ module PoiseService
       provides(:systemd)
 
       # @api private
-      def self.provides_auto?(node, resource)
+      def self.provides_auto?(node, _resource)
         # Don't allow systemd under docker, it won't work in most cases.
-        return false if node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
+        return false if node['virtualization'] && %w(docker lxc).include?(node['virtualization']['system'])
         service_resource_hints.include?(:systemd)
       end
 
       # @api private
       def self.default_inversion_options(node, resource)
-        super.merge({
-          # Automatically reload systemd on changes.
+        super.merge( # Automatically reload systemd on changes.
           auto_reload: true,
           # Service restart mode.
-          restart_mode: 'on-failure',
-        })
+          restart_mode: 'on-failure'
+        )
       end
 
       def pid
-        cmd = shell_out(%w{systemctl status} + [new_resource.service_name])
+        cmd = shell_out(%w(systemctl status) + [new_resource.service_name])
         if !cmd.error? && cmd.stdout.include?('Active: active (running)') && md = cmd.stdout.match(/Main PID: (\d+)/)
           md[1].to_i
-        else
-          nil
         end
       end
 
@@ -79,7 +75,6 @@ module PoiseService
           action :delete
         end
       end
-
     end
   end
 end

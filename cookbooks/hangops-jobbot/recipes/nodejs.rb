@@ -12,7 +12,7 @@ end
 
 # Install coffeescript globally. default action install included for clarity
 nodejs_npm 'coffeescript' do
-   action :install
+  action :install
 end
 
 # Run `npm install` to install dependencies

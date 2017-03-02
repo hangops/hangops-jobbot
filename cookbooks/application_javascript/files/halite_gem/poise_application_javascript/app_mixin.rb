@@ -19,7 +19,6 @@ require 'poise/utils'
 require 'poise_application/app_mixin'
 require 'poise_javascript/javascript_command_mixin'
 
-
 module PoiseApplicationJavascript
   # A helper mixin for Javascript application resources and providers.
   #
@@ -41,7 +40,7 @@ module PoiseApplicationJavascript
       # @attribute app_state_javascript
       #   The application-level Javascript parent.
       #   @return [PoiseJavascript::Resources::JavascriptRuntime::Resource, nil]
-      def app_state_javascript(javascript=Poise::NOT_PASSED)
+      def app_state_javascript(javascript = Poise::NOT_PASSED)
         unless javascript == Poise::NOT_PASSED
           app_state[:javascript] = javascript
         end

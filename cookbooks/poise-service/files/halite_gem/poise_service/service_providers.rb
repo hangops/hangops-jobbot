@@ -22,7 +22,6 @@ require 'poise_service/service_providers/systemd'
 require 'poise_service/service_providers/sysvinit'
 require 'poise_service/service_providers/upstart'
 
-
 module PoiseService
   # Inversion providers for the poise_service resource.
   #
@@ -30,9 +29,9 @@ module PoiseService
   module ServiceProviders
     # Set up priority maps
     Chef::Platform::ProviderPriorityMap.instance.priority(:poise_service, [
-      PoiseService::ServiceProviders::Systemd,
-      PoiseService::ServiceProviders::Upstart,
-      PoiseService::ServiceProviders::Sysvinit,
-    ])
+                                                            PoiseService::ServiceProviders::Systemd,
+                                                            PoiseService::ServiceProviders::Upstart,
+                                                            PoiseService::ServiceProviders::Sysvinit
+                                                          ])
   end
 end

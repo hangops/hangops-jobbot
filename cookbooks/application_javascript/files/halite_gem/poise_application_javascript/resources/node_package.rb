@@ -18,7 +18,6 @@ require 'poise_javascript/resources/node_package'
 
 require 'poise_application_javascript/app_mixin'
 
-
 module PoiseApplicationJavascript
   module Resources
     # (see NodePackage::Resource)

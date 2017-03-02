@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseLanguages
   module Scl
     autoload :Mixin, 'poise_languages/scl/mixin'

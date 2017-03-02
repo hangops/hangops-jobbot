@@ -17,7 +17,6 @@
 require 'poise/helpers'
 require 'poise/utils'
 
-
 module Poise
   # Master resource mixin for Poise-based resources.
   #
@@ -47,14 +46,14 @@ module Poise
 
     # @!classmethods
     module ClassMethods
-      def poise_subresource_container(namespace=nil, default=nil)
+      def poise_subresource_container(namespace = nil, default = nil)
         include Poise::Helpers::Subresources::Container
         # false is a valid value.
         container_namespace(namespace) unless namespace.nil?
         container_default(default) unless default.nil?
       end
 
-      def poise_subresource(parent_type=nil, parent_optional=nil, parent_auto=nil)
+      def poise_subresource(parent_type = nil, parent_optional = nil, parent_auto = nil)
         include Poise::Helpers::Subresources::Child
         parent_type(parent_type) if parent_type
         parent_optional(parent_optional) unless parent_optional.nil?
@@ -65,7 +64,7 @@ module Poise
         include Poise::Helpers::Fused
       end
 
-      def poise_inversion(options_resource=nil)
+      def poise_inversion(options_resource = nil)
         include Poise::Helpers::Inversion
         inversion_options_resource(true) unless options_resource == false
       end

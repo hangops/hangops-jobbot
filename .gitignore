@@ -54,5 +54,5 @@ $RECYCLE.BIN/
 
 # Misc
 *.log
-node_modules/
+node_modules
 

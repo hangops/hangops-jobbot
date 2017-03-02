@@ -19,7 +19,6 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
-
 module PoiseApplication
   module Resources
     # (see Application::Resource)
@@ -116,16 +115,16 @@ module PoiseApplication
             # Chef < 12.4 >= 12.0.
             Chef::Resource.descendants.map do |klass|
               klass.node_map.instance_variable_get(:@map).keys + if klass.dsl_name.include?('::')
-                # Probably not valid.
-                # :nocov:
-                []
-                # :nocov:
-              else
-                # Needed for things that don't call provides().
-                [klass.dsl_name]
+                                                                   # Probably not valid.
+                                                                   # :nocov:
+                                                                   []
+                                                                 # :nocov:
+                                                                 else
+                                                                   # Needed for things that don't call provides().
+                                                                   [klass.dsl_name]
               end
             end.flatten
-          end.map {|name| name.to_s }.select {|name| name.start_with?('application_') }.uniq
+          end.map(&:to_s).select { |name| name.start_with?('application_') }.uniq
         end
 
         # Find all cookbooks that might contain LWRPs matching our name scheme.
@@ -134,7 +133,7 @@ module PoiseApplication
         def _rewire_cookbooks
           # Run context might be unset during test setup.
           if run_context
-            run_context.cookbook_collection.keys.select {|cookbook_name| cookbook_name.start_with?('application_') }
+            run_context.cookbook_collection.keys.select { |cookbook_name| cookbook_name.start_with?('application_') }
           else
             []
           end
@@ -150,13 +149,13 @@ module PoiseApplication
             klass = Chef::Resource.resource_for_node(name.to_sym, node)
             # Find the part to trim. Check for LWRP first, then just application_.
             trim = if klass < Chef::Resource::LWRPBase
-              application_cookbooks.find {|cookbook_name| name.start_with?(cookbook_name) && name != cookbook_name } || 'application'
-            else
-              # Non-LWRPs are assumed to have a better name.
-              'application'
+                     application_cookbooks.find { |cookbook_name| name.start_with?(cookbook_name) && name != cookbook_name } || 'application'
+                   else
+                     # Non-LWRPs are assumed to have a better name.
+                     'application'
             end
             # Map trimmed to untrimmed.
-            memo[name[trim.length+1..-1]] = name
+            memo[name[trim.length + 1..-1]] = name
             memo
           end
         end
@@ -169,7 +168,7 @@ module PoiseApplication
           _rewire_map.each do |new_name, old_name|
             # This is defined as a singleton method on self so it looks like
             # the DSL but is scoped to just this context.
-            define_singleton_method(new_name) do |name=nil, *args, &block|
+            define_singleton_method(new_name) do |name = nil, *args, &block|
               # Store the caller to correct the source_line.
               created_at = caller[0]
               public_send(old_name, name, *args) do
@@ -252,7 +251,6 @@ module PoiseApplication
             end
           end
         end
-
       end
     end
   end

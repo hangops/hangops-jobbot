@@ -16,7 +16,6 @@
 
 require 'chef/resource_collection'
 
-
 module Poise
   module Subcontext
     # A subclass of the normal Chef ResourceCollection that creates a partially

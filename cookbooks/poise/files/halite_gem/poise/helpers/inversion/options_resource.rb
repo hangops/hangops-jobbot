@@ -19,7 +19,6 @@ require 'chef/mash'
 require 'poise/backports'
 require 'poise/error'
 
-
 module Poise
   module Helpers
     module Inversion
@@ -43,9 +42,7 @@ module Poise
         rescue NoMethodError
           # First time we've seen this key and using it as an rvalue, NOPE.GIF.
           raise unless !args.empty? || block || _options[method_sym]
-          if !args.empty? || block
-            _options[method_sym] = block || args.first
-          end
+          _options[method_sym] = block || args.first if !args.empty? || block
           _options[method_sym]
         end
 
@@ -54,7 +51,7 @@ module Poise
         # is fine because the provider is a no-op.
         #
         # @api private
-        def provider(val=Poise::NOT_PASSED)
+        def provider(val = Poise::NOT_PASSED)
           if val == Poise::NOT_PASSED
             super()
           else
@@ -67,7 +64,7 @@ module Poise
         #
         # @api private
         def after_created
-          raise Poise::Error.new("Inversion resource name not set for #{self.class.name}") unless self.class.inversion_resource
+          raise Poise::Error, "Inversion resource name not set for #{self.class.name}" unless self.class.inversion_resource
           node.run_state['poise_inversion'] ||= {}
           node.run_state['poise_inversion'][self.class.inversion_resource] ||= {}
           node.run_state['poise_inversion'][self.class.inversion_resource][resource] ||= {}
@@ -86,10 +83,10 @@ module Poise
           #   a candidate for.
           #   @param val [Symbol, Class] Name to set.
           #   @return [Symbol]
-          def inversion_resource(val=nil)
+          def inversion_resource(val = nil)
             if val
               val = val.resource_name if val.is_a?(Class)
-              Chef::Log.debug("[#{self.name}] Setting inversion resource to #{val}")
+              Chef::Log.debug("[#{name}] Setting inversion resource to #{val}")
               @poise_inversion_resource = val.to_sym
             end
             @poise_inversion_resource || (superclass.respond_to?(:inversion_resource) ? superclass.inversion_resource : nil)

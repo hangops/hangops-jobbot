@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module Poise
   module Helpers
     autoload :ChefspecMatchers, 'poise/helpers/chefspec_matchers'

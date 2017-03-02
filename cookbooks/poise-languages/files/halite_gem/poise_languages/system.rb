@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseLanguages
   module System
     autoload :Mixin, 'poise_languages/system/mixin'

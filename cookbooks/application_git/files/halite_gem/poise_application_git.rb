@@ -16,6 +16,5 @@
 
 require 'poise_application_git/resource'
 
-
 module PoiseApplicationGit
 end

@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module PoiseLanguages
   module Utils
     # Replacement module for Chef::Mixin::Which with a slight improvement.
@@ -31,7 +30,7 @@ module PoiseLanguages
       # @param extra_path [Array<String>] Extra directories to always search.
       # @param path [String, nil] Replacement $PATH value.
       # @return [String, false]
-      def which(cmd, extra_path: %w{/bin /usr/bin /sbin /usr/sbin}, path: nil)
+      def which(cmd, extra_path: %w(/bin /usr/bin /sbin /usr/sbin), path: nil)
         # If it was already absolute, just return that.
         return cmd if cmd =~ /^(\/|([a-z]:)?\\)/i
         # Allow passing something other than the real env var.
@@ -45,7 +44,6 @@ module PoiseLanguages
         end
         false
       end
-
     end
   end
 end

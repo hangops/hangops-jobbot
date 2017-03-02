@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 module Poise
   # Backported features from Chef to be able to use them with older versions.
   #

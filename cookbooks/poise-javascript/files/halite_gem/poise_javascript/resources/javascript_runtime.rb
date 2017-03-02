@@ -17,7 +17,6 @@
 require 'chef/resource'
 require 'poise'
 
-
 module PoiseJavascript
   module Resources
     # (see JavascriptRuntime::Resource)

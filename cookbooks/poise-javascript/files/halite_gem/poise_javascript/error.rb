@@ -16,7 +16,6 @@
 
 require 'poise_languages'
 
-
 module PoiseJavascript
   class Error < PoiseLanguages::Error
   end

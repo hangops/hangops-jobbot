@@ -23,7 +23,6 @@ require 'poise_application/resources/application'
 
 require 'poise_application_git/safe_string'
 
-
 module PoiseApplicationGit
   # An `application_git` resource to clone application code from git.
   #
@@ -80,7 +79,7 @@ module PoiseApplicationGit
     # @!attribute deploy_key
     #   SSH deploy key as either a string value or a path to a key file.
     #   @return [String]
-    def deploy_key(val=nil)
+    def deploy_key(val = nil)
       # Use a SafeString for literal deploy keys so they aren't shown.
       val = SafeString.new(val) if val && !deploy_key_is_local?(val)
       set_or_return(:deploy_key, val, kind_of: String)
@@ -99,7 +98,7 @@ module PoiseApplicationGit
     # @api private
     # @param key [String, nil] Key value to check. Defaults to self.key.
     # @return [Boolean]
-    def deploy_key_is_local?(key=nil)
+    def deploy_key_is_local?(key = nil)
       key ||= deploy_key
       key && key[0] == '/'
     end
@@ -110,9 +109,9 @@ module PoiseApplicationGit
     # @return [String]
     def deploy_key_path
       @deploy_key_path ||= if deploy_key_is_local?
-        deploy_key
-      else
-        ::File.expand_path("~#{user}/.ssh/id_deploy_#{Zlib.crc32(name)}")
+                             deploy_key
+                           else
+                             ::File.expand_path("~#{user}/.ssh/id_deploy_#{Zlib.crc32(name)}")
       end
     end
   end
@@ -190,7 +189,7 @@ module PoiseApplicationGit
         owner new_resource.user
         group new_resource.group
         mode '700'
-        content %Q{#!/bin/sh\n/usr/bin/env ssh #{'-o "StrictHostKeyChecking=no" ' unless new_resource.strict_ssh}-i "#{new_resource.deploy_key_path}" $@\n}
+        content %(#!/bin/sh\n/usr/bin/env ssh #{'-o "StrictHostKeyChecking=no" ' unless new_resource.strict_ssh}-i "#{new_resource.deploy_key_path}" $@\n)
       end
     end
 

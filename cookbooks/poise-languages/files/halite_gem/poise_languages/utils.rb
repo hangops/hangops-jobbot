@@ -18,14 +18,13 @@ require 'shellwords'
 
 require 'poise_languages/utils/which'
 
-
 module PoiseLanguages
   module Utils
     include Which
     extend self
 
     # Default whitelist for {#shelljoin}.
-    SHELLJOIN_WHITELIST = [/^2?[><]/]
+    SHELLJOIN_WHITELIST = [/^2?[><]/].freeze
 
     # An improved version of Shellwords.shelljoin that doesn't escape a few
     # things.
@@ -35,7 +34,7 @@ module PoiseLanguages
     # @return [String]
     def shelljoin(cmd, whitelist: SHELLJOIN_WHITELIST)
       cmd.map do |str|
-        if whitelist.any? {|pat| str =~ pat }
+        if whitelist.any? { |pat| str =~ pat }
           str
         else
           Shellwords.shellescape(str)
@@ -51,9 +50,9 @@ module PoiseLanguages
     def absolute_command(cmd, path: nil)
       was_array = cmd.is_a?(Array)
       cmd = if was_array
-        cmd.dup
-      else
-        Shellwords.split(cmd)
+              cmd.dup
+            else
+              Shellwords.split(cmd)
       end
       # Don't try to touch anything if the first value looks like a flag or a path.
       if cmd.first && !cmd.first.start_with?('-') && !cmd.first.include?(::File::SEPARATOR)
@@ -63,6 +62,5 @@ module PoiseLanguages
       cmd = shelljoin(cmd) unless was_array
       cmd
     end
-
   end
 end

@@ -20,7 +20,6 @@ require 'poise'
 
 require 'poise_application_javascript/service_mixin'
 
-
 module PoiseApplicationJavascript
   module Resources
     # (see JavascriptService::Resource)
@@ -52,7 +51,6 @@ module PoiseApplicationJavascript
           super
           resource.javascript_command(new_resource.command)
         end
-
       end
     end
   end

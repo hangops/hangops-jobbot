@@ -18,7 +18,6 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
-
 module PoiseService
   module Resources
     # (see PoiseServiceUser::Resource)
@@ -26,7 +25,7 @@ module PoiseService
     module PoiseServiceUser
       # Shells to look for in order.
       # @api private
-      DEFAULT_SHELLS = %w{/bin/nologin /usr/bin/nologin /bin/false}
+      DEFAULT_SHELLS = %w(/bin/nologin /usr/bin/nologin /bin/false).freeze
 
       # A `poise_service_user` resource to create service users/groups.
       #
@@ -83,7 +82,7 @@ module PoiseService
         # @api private
         # @return [String]
         def default_shell
-          DEFAULT_SHELLS.find {|s| ::File.exist?(s) } || DEFAULT_SHELLS.last
+          DEFAULT_SHELLS.find { |s| ::File.exist?(s) } || DEFAULT_SHELLS.last
         end
 
         # Find the default group name. Returns false on Windows because service
