@@ -29,4 +29,12 @@ service 'hubot' do
   action :nothing
 end
 
+# drop the Hubot service file into place
+# TODO: once we have a user recipe, change user to hubot
+cookbook_file "/etc/systemd/system/hubot.service" do
+  source "systemd.service"
+  owner "sntxrr"
+  mode "0644"
+end
+
 # Do some more stuff, then notify hubot to start
