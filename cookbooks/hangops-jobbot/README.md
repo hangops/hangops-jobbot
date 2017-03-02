@@ -76,5 +76,4 @@ e.g.
 
 ## License and Authors
 
-Authors: Don O'Neill (sntxrr+github@gmail.com)
-
+Authors: Don O'Neill https://github.com/rrxtns (sntxrr+github@gmail.com), Gabinante: https://github.com/gabinante
