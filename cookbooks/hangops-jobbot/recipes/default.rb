@@ -25,7 +25,7 @@ include_recipe 'hangops-jobbot::nodejs'
 
 # Create a system service.
 service 'hubot' do
-  init_command '/srv/hubot/bin/hubot --adapter campfire'
+  init_command '/srv/hubot/bin/hubot --adapter slack'
   action :nothing
 end
 
