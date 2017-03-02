@@ -1,0 +1,1 @@
+{"virtualbox":{"/tmp/omnibus/cache":{"create":true,"guestpath":"/tmp/omnibus/cache","hostpath":"/Users/gabinante/.kitchen/cache","disabled":false,"__vagrantfile":true}}}

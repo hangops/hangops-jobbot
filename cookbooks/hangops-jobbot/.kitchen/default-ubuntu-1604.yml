@@ -1,0 +1,7 @@
+---
+hostname: 127.0.0.1
+port: '2203'
+username: vagrant
+ssh_key: "/Users/gabinante/GitHub/hangops-jobbot/cookbooks/hangops-jobbot/.kitchen/kitchen-vagrant/kitchen-hangops-jobbot-default-ubuntu-1604/.vagrant/machines/default/virtualbox/private_key"
+last_action: create
+last_error: Kitchen::ActionFailed
