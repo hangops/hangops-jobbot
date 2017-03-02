@@ -1,12 +1,14 @@
-
 #
-# Copyright 2017, Don O'Neill (sntxrr+github@gmail.com)
+# Cookbook:: apt
+# Resource:: preference
+#
+# Copyright:: 2010-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,14 +17,15 @@
 # limitations under the License.
 #
 
-name             'hubot-jobbot'
-maintainer       'Akbar Enterprises'
-maintainer_email 'sntxrr+github@gmail.com'
-license          'All rights reserved'
-description      'Installs/Configures hubot-jobbot'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.5'
+actions :add, :remove
+default_action :add
 
-name 'hangops-jobbot'
+state_attrs :glob,
+            :package_name,
+            :pin,
+            :pin_priority
 
-depends 'nodejs', '~> 3.0.0'
+attribute :package_name, kind_of: String, name_attribute: true, regex: [/^([a-z]|[A-Z]|[0-9]|_|-|\.|\*|\+)+$/]
+attribute :glob, kind_of: String
+attribute :pin, kind_of: String
+attribute :pin_priority, kind_of: String, required: true

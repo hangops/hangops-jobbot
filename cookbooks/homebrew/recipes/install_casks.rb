@@ -1,12 +1,14 @@
-
 #
-# Copyright 2017, Don O'Neill (sntxrr+github@gmail.com)
+# Cookbook:: homebrew
+# Recipe:: install_casks
+#
+# Copyright:: 2014-2016, Chef Software, Inc <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,14 +17,8 @@
 # limitations under the License.
 #
 
-name             'hubot-jobbot'
-maintainer       'Akbar Enterprises'
-maintainer_email 'sntxrr+github@gmail.com'
-license          'All rights reserved'
-description      'Installs/Configures hubot-jobbot'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.5'
+include_recipe 'homebrew::cask'
 
-name 'hangops-jobbot'
-
-depends 'nodejs', '~> 3.0.0'
+node['homebrew']['casks'].each do |cask|
+  homebrew_cask cask
+end
