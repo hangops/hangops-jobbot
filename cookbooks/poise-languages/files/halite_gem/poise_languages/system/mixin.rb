@@ -16,9 +16,11 @@
 
 require 'poise_languages/system/resource'
 
+
 module PoiseLanguages
   module System
     module Mixin
+
       private
 
       # Install a language using system packages.
@@ -57,7 +59,7 @@ module PoiseLanguages
       # @api public
       # @param version [String] Language version prefix.
       # @return [Array<String>]
-      def system_package_candidates(_version)
+      def system_package_candidates(version)
         raise NotImplementedError
       end
 
@@ -80,7 +82,7 @@ module PoiseLanguages
           return name if system_packages.include?(name)
         end
         # No valid candidate. Sad trombone.
-        raise PoiseLanguages::Error, "Unable to find a candidate package for version #{options['version'].to_s.inspect}. Please set package_name provider option for #{new_resource}."
+        raise PoiseLanguages::Error.new("Unable to find a candidate package for version #{options['version'].to_s.inspect}. Please set package_name provider option for #{new_resource}.")
       end
 
       # A hash mapping package names to their override dev package name.
@@ -97,7 +99,7 @@ module PoiseLanguages
         # whole different story, and OS X might work sometimes so at least try.
         #
         # @api private
-        def provides_auto?(node, _resource)
+        def provides_auto?(node, resource)
           !node.platform_family?('windows')
         end
 
@@ -107,14 +109,15 @@ module PoiseLanguages
         #
         # @api private
         def default_inversion_options(node, resource)
-          super.merge( # Install dev headers?
+          super.merge({
+            # Install dev headers?
             dev_package: true,
             # Manual overrides for package name and/or version.
             package_name: nil,
             package_version: nil,
             # Set to true to use action :upgrade on system packages.
-            package_upgrade: false
-          )
+            package_upgrade: false,
+          })
         end
 
         # @overload packages()
@@ -129,9 +132,11 @@ module PoiseLanguages
         #   @param [Hash] Hash formatted for value_for_platform returning an
         #     Array of package names.
         #   @return [Hash]
-        def packages(default_package = nil, packages = nil)
+        def packages(default_package=nil, packages=nil)
           self.default_package(default_package) if default_package
-          @packages = packages if packages
+          if packages
+            @packages = packages
+          end
           @packages
         end
 
@@ -142,8 +147,10 @@ module PoiseLanguages
         #   Set the default package name for platforms not defined in {packages}.
         #   @param name [String] Package name.
         #   @return [String]
-        def default_package(name = nil)
-          @default_package = name if name
+        def default_package(name=nil)
+          if name
+            @default_package = name
+          end
           @default_package
         end
 
@@ -155,6 +162,7 @@ module PoiseLanguages
       end
 
       extend ClassMethods
+
     end
   end
 end

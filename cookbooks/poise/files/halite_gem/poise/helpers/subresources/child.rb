@@ -19,6 +19,7 @@ require 'chef/resource'
 require 'poise/error'
 require 'poise/helpers/subresources/default_containers'
 
+
 module Poise
   module Helpers
     module Subresources
@@ -62,7 +63,7 @@ module Poise
         def parent(*args)
           # Lie about this method if the parent type is true.
           if self.class.parent_type == true
-            raise NoMethodError, "undefined method `parent' for #{self}"
+            raise NoMethodError.new("undefined method `parent' for #{self}")
           end
           _parent(:parent, self.class.parent_type, self.class.parent_optional, self.class.parent_auto, self.class.parent_default, *args)
         end
@@ -73,7 +74,7 @@ module Poise
         def after_created
           super
           self.class.parent_attributes.each_key do |name|
-            parent = send(name)
+            parent = self.send(name)
             parent.register_subresource(self) if parent && parent.respond_to?(:register_subresource)
           end
         end
@@ -98,7 +99,7 @@ module Poise
               parent = parent_ref = nil
             else
               if val.is_a?(String) && !val.include?('[')
-                raise Poise::Error, "Cannot use a string #{name} without defining a parent type" if parent_type == Chef::Resource
+                raise Poise::Error.new("Cannot use a string #{name} without defining a parent type") if parent_type == Chef::Resource
                 # Try to find the most recent instance of parent_type with a
                 # matching name. This takes subclassing parent_type into account.
                 found_val = nil
@@ -112,22 +113,22 @@ module Poise
                 # it won't work with subclassing, better than nothing?
                 val = found_val || "#{parent_type.resource_name}[#{val}]"
               end
-              parent = if val.is_a?(String) || val.is_a?(Hash)
-                         @run_context.resource_collection.find(val)
-                       else
-                         val
-                       end
-              unless parent.is_a?(parent_type)
-                raise Poise::Error, "Parent resource is not an instance of #{parent_type.name}: #{val.inspect}"
+              if val.is_a?(String) || val.is_a?(Hash)
+                parent = @run_context.resource_collection.find(val)
+              else
+                parent = val
+              end
+              if !parent.is_a?(parent_type)
+                raise Poise::Error.new("Parent resource is not an instance of #{parent_type.name}: #{val.inspect}")
               end
               parent_ref = ParentRef.new(parent)
             end
           elsif !parent_ref || !parent_ref.resource
             if parent_default
               parent = if parent_default.is_a?(Chef::DelayedEvaluator)
-                         instance_eval(&parent_default)
-                       else
-                         parent_default
+                instance_eval(&parent_default)
+              else
+                parent_default
               end
             end
             # The @parent_ref means we won't run this if we previously set
@@ -140,12 +141,12 @@ module Poise
               parent = Poise::Helpers::Subresources::DefaultContainers.find(parent_type, run_context, self_resource: self)
             end
             # Can't find a valid parent, if it wasn't optional raise an error.
-            raise Poise::Error, "No #{name} found for #{self}" unless parent || parent_optional
+            raise Poise::Error.new("No #{name} found for #{self}") unless parent || parent_optional
             parent_ref = ParentRef.new(parent)
           else
             parent = parent_ref.resource
           end
-          raise Poise::Error, "Cannot set the #{name} of #{self} to itself" if parent.equal?(self)
+          raise Poise::Error.new("Cannot set the #{name} of #{self} to itself") if parent.equal?(self)
           # Store the ivar back.
           instance_variable_set(:"@#{name}", parent_ref)
           # Return the actual resource.
@@ -160,9 +161,9 @@ module Poise
           #   Set the class of the default parent link on this resource.
           #   @param type [Class, Symbol] Class to set.
           #   @return [Class, Symbol]
-          def parent_type(type = nil)
+          def parent_type(type=nil)
             if type
-              raise Poise::Error, "Parent type must be a class, symbol, or true, got #{type.inspect}" unless type.is_a?(Class) || type.is_a?(Symbol) || type == true
+              raise Poise::Error.new("Parent type must be a class, symbol, or true, got #{type.inspect}") unless type.is_a?(Class) || type.is_a?(Symbol) || type == true
               # Setting to true shouldn't actually do anything if a type was already set.
               @parent_type = type unless type == true && !@parent_type.nil?
             end
@@ -178,8 +179,10 @@ module Poise
           #   Set the optional mode for the default parent link on this resource.
           #   @param val [Boolean] Mode to set.
           #   @return [Boolean]
-          def parent_optional(val = nil)
-            @parent_optional = val unless val.nil?
+          def parent_optional(val=nil)
+            unless val.nil?
+              @parent_optional = val
+            end
             if @parent_optional.nil?
               Poise::Utils.ancestor_send(self, :parent_optional, default: false)
             else
@@ -194,8 +197,10 @@ module Poise
           #   Set the auto-detect mode for the default parent link on this resource.
           #   @param val [Boolean] Mode to set.
           #   @return [Boolean]
-          def parent_auto(val = nil)
-            @parent_auto = val unless val.nil?
+          def parent_auto(val=nil)
+            unless val.nil?
+              @parent_auto = val
+            end
             if @parent_auto.nil?
               Poise::Utils.ancestor_send(self, :parent_auto, default: true)
             else
@@ -213,7 +218,9 @@ module Poise
           #   @param val [Object, Chef::DelayedEvaluator] Default value to set.
           #   @return [Object, Chef::DelayedEvaluator]
           def parent_default(*args)
-            @parent_default = args.first unless args.empty?
+            unless args.empty?
+              @parent_default = args.first
+            end
             if defined?(@parent_default)
               @parent_default
             else
@@ -251,7 +258,7 @@ module Poise
               # Extra locally defined parents.
               attrs.update(@parent_attributes) if @parent_attributes
               # Remove anything with the type set to true.
-              attrs.reject! { |_name, type| type == true }
+              attrs.reject! {|name, type| type == true }
             end
           end
 

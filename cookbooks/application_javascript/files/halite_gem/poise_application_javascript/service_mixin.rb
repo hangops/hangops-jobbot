@@ -20,6 +20,7 @@ require 'poise_languages/utils'
 
 require 'poise_application_javascript/app_mixin'
 
+
 module PoiseApplicationJavascript
   # A helper mixin for Javascript service resources and providers.
   #
@@ -50,6 +51,7 @@ module PoiseApplicationJavascript
         # Include env vars as needed.
         resource.environment.update(new_resource.parent_javascript.javascript_environment) if new_resource.parent_javascript
       end
+
     end
   end
 end

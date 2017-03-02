@@ -20,6 +20,7 @@ require 'chef/run_context'
 
 require 'poise/utils/resource_provider_mixin'
 
+
 module Poise
   include Poise::Utils::ResourceProviderMixin
   autoload :Backports, 'poise/backports'
@@ -37,7 +38,7 @@ module Poise
   # @param node [Chef::Node, Chef::RunContext] Optional node to check for
   #   attributes. If not given, Chef.node is used instead.
   # @return [Boolean]
-  def self.debug?(node = nil)
+  def self.debug?(node=nil)
     node = node.node if node.is_a?(Chef::RunContext)
     node ||= Chef.node if defined?(Chef.node)
     @debug_file_upper = ::File.exist?('/POISE_DEBUG') unless defined?(@debug_file_upper)
@@ -66,9 +67,11 @@ end
 #   include Poise(ParentResource)
 #   include Poise(parent: ParentResource)
 #   include Poise(container: true)
-def Poise(options = {})
+def Poise(options={})
   # Allow passing a class as a shortcut
-  options = { parent: options } if options.is_a?(Class)
+  if options.is_a?(Class)
+    options = {parent: options}
+  end
 
   # Create a new anonymous module
   mod = Module.new

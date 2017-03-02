@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseLanguages
-  VERSION = '2.0.5'.freeze
+  VERSION = '2.0.5'
 end

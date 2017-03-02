@@ -17,6 +17,7 @@
 require 'poise/error'
 require 'poise/utils'
 
+
 module Poise
   module Helpers
     # A mixin to track where a resource or provider was defined. This can
@@ -56,7 +57,7 @@ module Poise
       # @param file [String, nil] Optional file path to check instead of the path
       #   this class was defined in.
       # @return [String]
-      def poise_defined_in_cookbook(file = nil)
+      def poise_defined_in_cookbook(file=nil)
         self.class.poise_defined_in_cookbook(run_context, file)
       end
 
@@ -66,7 +67,7 @@ module Poise
         #
         # @return [String]
         def poise_defined_in
-          raise Poise::Error, "Unable to determine location of #{name}" unless @poise_defined_in
+          raise Poise::Error.new("Unable to determine location of #{self.name}") unless @poise_defined_in
           @poise_defined_in
         end
 
@@ -77,11 +78,11 @@ module Poise
         # @param file [String, nil] Optional file path to check instead of the
         #   path this class was defined in.
         # @return [String]
-        def poise_defined_in_cookbook(run_context, file = nil)
+        def poise_defined_in_cookbook(run_context, file=nil)
           file ||= poise_defined_in
-          Poise.debug("[#{name}] Checking cookbook name for #{file}")
+          Poise.debug("[#{self.name}] Checking cookbook name for #{file}")
           Poise::Utils.find_cookbook_name(run_context, file).tap do |cookbook|
-            Poise.debug("[#{name}] found cookbook #{cookbook.inspect}")
+            Poise.debug("[#{self.name}] found cookbook #{cookbook.inspect}")
           end
         end
 
@@ -94,17 +95,17 @@ module Poise
           # Only try to set this once.
           return if @poise_defined_in
           # Parse out just the filenames.
-          caller_paths = caller_array.map { |line| line[CALLER_REGEXP, 1] }
+          caller_paths = caller_array.map {|line| line[CALLER_REGEXP, 1] }
           # Find the first non-poise, non-chef line. This assumes Halite
           # transformation which I'm not thrilled about.
           caller_path = caller_paths.find do |line|
             line && !line.start_with?(POISE_LIB_ROOT) && !line.start_with?(CHEF_LIB_ROOT)
           end
-          raise Poise::Error, "Unable to find a caller path for: #{caller_array.inspect}" unless caller_path
+          raise Poise::Error.new("Unable to find a caller path for: #{caller_array.inspect}") unless caller_path
           if ::File::ALT_SEPARATOR
             caller_path.gsub!(::File::ALT_SEPARATOR, ::File::SEPARATOR)
           end
-          Chef::Log.debug("[#{name}] Recording poise_defined_in as #{caller_path}")
+          Chef::Log.debug("[#{self.name}] Recording poise_defined_in as #{caller_path}")
           @poise_defined_in = caller_path
         end
 

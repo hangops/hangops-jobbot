@@ -25,6 +25,7 @@ require 'poise/error'
 require 'poise/helpers/inversion/options_resource'
 require 'poise/utils/resource_provider_mixin'
 
+
 module Poise
   module Helpers
     # A mixin for dependency inversion in Chef.
@@ -56,7 +57,7 @@ module Poise
         #     my_resource 'thing_one' do
         #       options :my_provider, depends: 'thing_two'
         #     end
-        def options(provider = nil, val = nil)
+        def options(provider=nil, val=nil)
           key = :options
           if !val && provider.is_a?(Hash)
             val = provider
@@ -75,13 +76,13 @@ module Poise
         #   my_resource 'thing_one' do
         #     provider :my_provider
         #   end
-        def provider(val = nil)
+        def provider(val=nil)
           if val && !val.is_a?(Class)
             resource_names = [resource_name]
             # If subclass_providers! might be in play, check for those names too.
             resource_names.concat(self.class.subclass_resource_equivalents) if self.class.respond_to?(:subclass_resource_equivalents)
             # Silly ruby tricks to find the first provider that exists and no more.
-            provider_class = resource_names.lazy.map { |name| Poise::Helpers::Inversion.provider_for(name, node, val) }.select { |x| x }.first
+            provider_class = resource_names.lazy.map {|name| Poise::Helpers::Inversion.provider_for(name, node, val) }.select {|x| x }.first
             Poise.debug("[#{self}] Checking for an inversion provider for #{val}: #{provider_class && provider_class.name}")
             val = provider_class if provider_class
           end
@@ -93,7 +94,7 @@ module Poise
         #
         # @param val [String, Array<String>] Value to set.
         # @return [Array<String>]
-        def provider_no_auto(val = nil)
+        def provider_no_auto(val=nil)
           # Coerce to an array.
           val = Array(val).map(&:to_s) if val
           set_or_return(:provider_no_auto, val, kind_of: Array, default: [])
@@ -114,7 +115,7 @@ module Poise
           #   automatically create an options resource. Defaults to true.
           #   @param val [Boolean] Enable/disable setting.
           #   @return [Boolean]
-          def inversion_options_resource(val = nil)
+          def inversion_options_resource(val=nil)
             @poise_inversion_options_resource = val unless val.nil?
             @poise_inversion_options_resource
           end
@@ -199,10 +200,10 @@ module Poise
           #   a candidate for.
           #   @param val [Symbol, Class] Name to set.
           #   @return [Symbol, nil]
-          def inversion_resource(val = Poise::NOT_PASSED)
+          def inversion_resource(val=Poise::NOT_PASSED)
             if val != Poise::NOT_PASSED
               val = val.resource_name if val.is_a?(Class)
-              Chef::Log.debug("[#{name}] Setting inversion resource to #{val}")
+              Chef::Log.debug("[#{self.name}] Setting inversion resource to #{val}")
               @poise_inversion_resource = val.to_sym
             end
             if defined?(@poise_inversion_resource)
@@ -222,10 +223,10 @@ module Poise
           #   of strings corresponding to the keys.
           #   @param val [String, Array<String>] Attribute path.
           #   @return [Array<String>, nil]
-          def inversion_attribute(val = Poise::NOT_PASSED)
+          def inversion_attribute(val=Poise::NOT_PASSED)
             if val != Poise::NOT_PASSED
               # Coerce to an array of strings.
-              val = Array(val).map(&:to_s)
+              val = Array(val).map {|name| name.to_s }
               @poise_inversion_attribute = val
             end
             if defined?(@poise_inversion_attribute)
@@ -245,11 +246,13 @@ module Poise
             tried = []
             while klass.respond_to?(:poise_defined_in_cookbook)
               cookbook = klass.poise_defined_in_cookbook(node.run_context)
-              return [cookbook] if node[cookbook]
+              if node[cookbook]
+                return [cookbook]
+              end
               tried << cookbook
               klass = klass.superclass
             end
-            raise Poise::Error, "Unable to find inversion attributes, tried: #{tried.join(', ')}"
+            raise Poise::Error.new("Unable to find inversion attributes, tried: #{tried.join(', ')}")
           end
 
           # Resolve the node attribute used as the base for inversion options
@@ -265,7 +268,7 @@ module Poise
             return {} if attribute_names.empty?
             attribute_names.inject(node) do |memo, key|
               memo[key] || begin
-                raise Poise::Error, "Attribute #{key} not set when expanding inversion attribute for #{name}: #{memo}"
+                raise Poise::Error.new("Attribute #{key} not set when expanding inversion attribute for #{self.name}: #{memo}")
               end
             end
           end
@@ -308,7 +311,7 @@ module Poise
           # @param node [Chef::Node] Node to load from.
           # @param resource [Chef::Resource] Resource to load from.
           # @return [Hash]
-          def default_inversion_options(_node, _resource)
+          def default_inversion_options(node, resource)
             {}
           end
 
@@ -333,9 +336,9 @@ module Poise
           #   @param opts [Hash] NodeMap filter options.
           #   @param block [Proc] NodeMap filter proc.
           #   @return [Symbol]
-          def provides(name = nil, opts = {}, &block)
+          def provides(name=nil, opts={}, &block)
             if name
-              raise Poise::Error, "Inversion resource name not set for #{self.name}" unless inversion_resource
+              raise Poise::Error.new("Inversion resource name not set for #{self.name}") unless inversion_resource
               @poise_inversion_provider = name
               Chef::Log.debug("[#{self.name}] Setting inversion provider name to #{name}")
               Poise::Helpers::Inversion.provider_map(inversion_resource).set(name.to_sym, self, opts, &block)
@@ -352,8 +355,8 @@ module Poise
           # @param resource [Chef::Resource] Resource instance to match.
           # @return [Boolean]
           def provides?(node, resource)
-            raise Poise::Error, "Inversion resource name not set for #{name}" unless inversion_resource
-            resource_name_equivalents = { resource.resource_name => true }
+            raise Poise::Error.new("Inversion resource name not set for #{self.name}") unless inversion_resource
+            resource_name_equivalents = {resource.resource_name => true}
             # If subclass_providers! might be in play, check for those names too.
             if resource.class.respond_to?(:subclass_resource_equivalents)
               resource.class.subclass_resource_equivalents.each do |name|
@@ -363,7 +366,7 @@ module Poise
             return false unless resource_name_equivalents[inversion_resource]
             provider_name = resolve_inversion_provider(node, resource).to_s
             Poise.debug("[#{resource}] Checking provides? on #{self.name}. Got provider_name #{provider_name.inspect}")
-            provider_name == provides.to_s || (provider_name == 'auto' && !resource.provider_no_auto.include?(provides.to_s) && provides_auto?(node, resource))
+            provider_name == provides.to_s || ( provider_name == 'auto' && !resource.provider_no_auto.include?(provides.to_s) && provides_auto?(node, resource) )
           end
 
           # Subclass hook to provide auto-detection for providers.
@@ -371,7 +374,7 @@ module Poise
           # @param node [Chef::Node] Node to check against.
           # @param resource [Chef::Resource] Resource to check against.
           # @return [Boolean]
-          def provides_auto?(_node, _resource)
+          def provides_auto?(node, resource)
             false
           end
 

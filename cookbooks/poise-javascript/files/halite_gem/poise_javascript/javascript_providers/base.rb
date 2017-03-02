@@ -17,6 +17,7 @@
 require 'chef/provider'
 require 'poise'
 
+
 module PoiseJavascript
   module JavascriptProviders
     class Base < Chef::Provider
@@ -26,7 +27,9 @@ module PoiseJavascript
       #
       # @api private
       def self.default_inversion_options(node, new_resource)
-        super.merge(version: new_resource.version)
+        super.merge({
+          version: new_resource.version,
+        })
       end
 
       # The `install` action for the `javascript_runtime` resource.
@@ -88,6 +91,7 @@ module PoiseJavascript
       def uninstall_javascript
         raise NotImplementedError
       end
+
     end
   end
 end

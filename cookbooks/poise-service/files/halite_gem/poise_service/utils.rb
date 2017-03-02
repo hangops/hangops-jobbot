@@ -16,6 +16,7 @@
 
 require 'pathname'
 
+
 module PoiseService
   # Utility methods for PoiseService.
   #
@@ -26,7 +27,7 @@ module PoiseService
     extend self
 
     # Common segments to ignore
-    COMMON_SEGMENTS = %w(var www current etc).inject({}) { |memo, seg| memo[seg] = true; memo }
+    COMMON_SEGMENTS = %w{var www current etc}.inject({}) {|memo, seg| memo[seg] = true; memo }
 
     # Parse the service name from a path. Look at the last component of the
     # path, ignoring some common names.
@@ -38,7 +39,7 @@ module PoiseService
     def parse_service_name(path)
       parts = Pathname.new(path).each_filename.to_a.reverse!
       # Find the last segment not in common segments, fall back to the last segment.
-      parts.find { |seg| !COMMON_SEGMENTS[seg] } || parts.first
+      parts.find {|seg| !COMMON_SEGMENTS[seg] } || parts.first
     end
   end
 end

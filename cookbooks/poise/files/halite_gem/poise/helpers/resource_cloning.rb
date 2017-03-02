@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module Poise
   module Helpers
     # A resource mixin to disable resource cloning.
@@ -44,10 +45,12 @@ module Poise
       module ResourceBuilderPatch
         # @api private
         def self.install!
-          require 'chef/resource_builder'
-          Chef::ResourceBuilder.send(:prepend, ResourceBuilderPatch)
-        rescue LoadError
-          # For 12.0, this is already taken care of.
+          begin
+            require 'chef/resource_builder'
+            Chef::ResourceBuilder.send(:prepend, ResourceBuilderPatch)
+          rescue LoadError
+            # For 12.0, this is already taken care of.
+          end
         end
 
         # @api private
@@ -63,6 +66,7 @@ module Poise
 
       # Install the patch.
       ResourceBuilderPatch.install!
+
     end
   end
 end

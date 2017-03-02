@@ -21,6 +21,7 @@ require 'poise'
 
 require 'poise_javascript/javascript_command_mixin'
 
+
 module PoiseJavascript
   module Resources
     # (see JavascriptExecute::Resource)
@@ -75,6 +76,7 @@ module PoiseJavascript
             new_resource.environment
           end
         end
+
       end
     end
   end

@@ -16,6 +16,7 @@
 
 require 'poise_javascript/javascript_providers/base'
 
+
 module PoiseJavascript
   module JavascriptProviders
     # Inversion provider for the `javascript_runtime` resource to use a fake Javascript,
@@ -27,11 +28,12 @@ module PoiseJavascript
       provides(:dummy)
 
       def self.default_inversion_options(node, resource)
-        super.merge( # Manual overrides for dummy data.
+        super.merge({
+          # Manual overrides for dummy data.
           javascript_binary: ::File.join('', 'node'),
           javascript_environment: nil,
-          npm_binary: nil
-        )
+          npm_binary: nil,
+        })
       end
 
       # The `install` action for the `javascript_runtime` resource.
@@ -68,6 +70,8 @@ module PoiseJavascript
       def npm_binary
         options['npm_binary'] || super
       end
+
     end
   end
 end
+

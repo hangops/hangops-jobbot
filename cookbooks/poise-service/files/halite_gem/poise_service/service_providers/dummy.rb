@@ -19,6 +19,7 @@ require 'shellwords'
 
 require 'poise_service/service_providers/base'
 
+
 module PoiseService
   module ServiceProviders
     class Dummy < Base
@@ -149,6 +150,7 @@ module PoiseService
       def pid_file
         "/var/run/#{new_resource.service_name}.pid"
       end
+
     end
   end
 end

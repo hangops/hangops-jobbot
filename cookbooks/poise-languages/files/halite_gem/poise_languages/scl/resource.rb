@@ -18,6 +18,7 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
+
 module PoiseLanguages
   module Scl
     # A `poise_language_scl` resource to manage installing a language from
@@ -152,6 +153,7 @@ module PoiseLanguages
       def uninstall_scl_devel_package
         install_scl_devel_package(:remove)
       end
+
     end
   end
 end

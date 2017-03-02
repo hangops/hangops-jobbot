@@ -20,18 +20,21 @@ require 'poise_languages'
 require 'poise_javascript/error'
 require 'poise_javascript/javascript_providers/base'
 
+
 module PoiseJavascript
   module JavascriptProviders
     class System < Base
       include PoiseLanguages::System::Mixin
       provides(:system)
-      packages('nodejs', debian: { default: %w(nodejs) },
-                         ubuntu: { default: %w(nodejs) },
-                         # Empty arrays because no package in the base OS.
-                         redhat: { default: %w() },
-                         centos: { default: %w() },
-                         fedora: { default: %w(nodejs) },
-                         amazon: { default: %w() })
+      packages('nodejs', {
+        debian: {default: %w{nodejs}},
+        ubuntu: {default: %w{nodejs}},
+        # Empty arrays because no package in the base OS.
+        redhat: {default: %w{}},
+        centos: {default: %w{}},
+        fedora: {default: %w{nodejs}},
+        amazon: {default: %w{}},
+      })
 
       def self.provides_auto?(node, resource)
         # Don't auto on platforms I know have no system package by default. Kind
@@ -42,7 +45,7 @@ module PoiseJavascript
 
       def javascript_binary
         # Debian and Ubuntu after 12.04 changed the binary name ಠ_ಠ.
-        binary_name = node.value_for_platform(debian: { default: 'nodejs' }, ubuntu: { '12.04' => 'node', default: 'nodejs' }, default: 'node')
+        binary_name = node.value_for_platform(debian: {default: 'nodejs'}, ubuntu: {'12.04' => 'node', default: 'nodejs'}, default: 'node')
         ::File.join('', 'usr', 'bin', binary_name)
       end
 
@@ -50,18 +53,19 @@ module PoiseJavascript
 
       def install_javascript
         install_system_packages
-        package %w(npm nodejs-legacy) if node.platform_family?('debian')
+        package %w{npm nodejs-legacy} if node.platform_family?('debian')
       end
 
       def uninstall_javascript
         uninstall_system_packages
-        package(%w(npm nodejs-legacy)) { action :purge } if node.platform_family?('debian')
+        package(%w{npm nodejs-legacy}) { action :purge } if node.platform_family?('debian')
       end
 
-      def system_package_candidates(_version)
+      def system_package_candidates(version)
         # Boring :-(.
-        %w(nodejs nodejs-legacy node)
+        %w{nodejs nodejs-legacy node}
       end
+
     end
   end
 end

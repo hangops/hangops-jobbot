@@ -18,6 +18,7 @@ require 'chef/resource'
 
 require 'poise/utils/resource_provider_mixin'
 
+
 module Poise
   module Helpers
     # A resource and provider mixin to add back some compatability with Chef's
@@ -55,7 +56,7 @@ module Poise
           #       include Poise
           #       default_action(:install)
           #     end
-          def default_action(name = nil)
+          def default_action(name=nil)
             if name
               name = Array(name).flatten.map(&:to_sym)
               @default_action = name
@@ -63,12 +64,12 @@ module Poise
             end
             if @default_action
               @default_action
-            elsif respond_to?(:superclass) && superclass != Chef::Resource && superclass.respond_to?(:default_action) && superclass.default_action && Array(superclass.default_action) != %i(nothing)
+            elsif respond_to?(:superclass) && superclass != Chef::Resource && superclass.respond_to?(:default_action) && superclass.default_action && Array(superclass.default_action) != %i{nothing}
               superclass.default_action
-            elsif first_non_nothing = actions.find { |action| action != :nothing }
+            elsif first_non_nothing = actions.find {|action| action != :nothing }
               [first_non_nothing]
             else
-              %i(nothing)
+              %i{nothing}
             end
           end
 
@@ -87,8 +88,8 @@ module Poise
           #       actions(:install, :uninstall)
           #     end
           def actions(*names)
-            @actions ||= (respond_to?(:superclass) && superclass.respond_to?(:actions) && superclass.actions.dup) || (respond_to?(:superclass) && superclass != Chef::Resource && superclass.respond_to?(:allowed_actions) && superclass.allowed_actions.dup) || []
-            (@actions << names).tap { |actions| actions.flatten!; actions.uniq! }
+            @actions ||= ( respond_to?(:superclass) && superclass.respond_to?(:actions) && superclass.actions.dup ) || ( respond_to?(:superclass) && superclass != Chef::Resource && superclass.respond_to?(:allowed_actions) && superclass.allowed_actions.dup ) || []
+            (@actions << names).tap {|actions| actions.flatten!; actions.uniq! }
           end
 
           # Create a resource property (née attribute) on this resource class.
@@ -104,18 +105,18 @@ module Poise
           #     attribute(:path, name_attribute: true)
           #     attribute(:port, kind_of: Integer, default: 8080)
           #   end
-          def attribute(name, opts = {})
+          def attribute(name, opts={})
             # Freeze the default value. This is done upstream too in Chef 12.5+.
             opts[:default].freeze if opts && opts[:default]
             # Ruby 1.8 can go to hell.
-            define_method(name) do |arg = nil, &block|
+            define_method(name) do |arg=nil, &block|
               arg = block if arg.nil? # Try to allow passing either.
               set_or_return(name, arg, opts)
             end
           end
 
           # For forward compat with Chef 12.5+.
-          alias property attribute
+          alias_method :property, :attribute
 
           def included(klass)
             super
@@ -131,10 +132,10 @@ module Poise
         module LoadCurrentResource
           def load_current_resource
             @current_resource = if new_resource
-                                  new_resource.class.new(new_resource.name, run_context)
-                                else
-                                  # Better than nothing, subclass can overwrite anyway.
-                                  Chef::Resource.new(nil, run_context)
+              new_resource.class.new(new_resource.name, run_context)
+            else
+              # Better than nothing, subclass can overwrite anyway.
+              Chef::Resource.new(nil, run_context)
             end
           end
         end

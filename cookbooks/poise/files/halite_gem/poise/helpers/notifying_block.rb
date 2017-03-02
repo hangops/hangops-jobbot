@@ -17,6 +17,7 @@
 require 'poise/helpers/subcontext_block'
 require 'poise/subcontext/runner'
 
+
 module Poise
   module Helpers
     # A provider mixin to provide #notifying_block, a scoped form of Chef's
@@ -62,14 +63,15 @@ module Poise
         # any sub-run-context resources were updated (any actual
         # actions taken against the system) during the
         # sub-run-context convergence.
-
-        subcontext = subcontext_block(&block)
-        # Converge the new context.
-        Poise::Subcontext::Runner.new(new_resource, subcontext).converge
-      ensure
-        new_resource.updated_by_last_action(
-          subcontext && subcontext.resource_collection.any?(&:updated?)
-        )
+        begin
+          subcontext = subcontext_block(&block)
+          # Converge the new context.
+          Poise::Subcontext::Runner.new(new_resource, subcontext).converge
+        ensure
+          new_resource.updated_by_last_action(
+            subcontext && subcontext.resource_collection.any?(&:updated?)
+          )
+        end
       end
     end
   end

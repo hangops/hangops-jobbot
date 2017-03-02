@@ -17,6 +17,7 @@
 require 'chef/provider'
 require 'poise'
 
+
 module PoiseService
   module ServiceProviders
     class Base < Chef::Provider
@@ -128,9 +129,9 @@ module PoiseService
         end
       end
 
-      def notify_if_service
+      def notify_if_service(&block)
         service_resource.updated_by_last_action(false)
-        yield
+        block.call
         new_resource.updated_by_last_action(true) if service_resource.updated_by_last_action?
       end
 
@@ -163,7 +164,7 @@ module PoiseService
             end
           else
             source default_source
-            cookbook poise_defined_in_cookbook
+            cookbook self.poise_defined_in_cookbook
           end
           variables(
             command: options['command'] || new_resource.command,
@@ -174,7 +175,7 @@ module PoiseService
             options: options,
             reload_signal: options['reload_signal'] || new_resource.reload_signal,
             stop_signal: options['stop_signal'] || new_resource.stop_signal,
-            user: options['user'] || new_resource.user
+            user: options['user'] || new_resource.user,
           )
           # Don't trigger a restart if the template doesn't already exist, this
           # prevents restarting on the run that first creates the service.
@@ -186,6 +187,7 @@ module PoiseService
           instance_exec(&block) if block
         end
       end
+
     end
   end
 end

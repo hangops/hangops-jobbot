@@ -211,7 +211,7 @@ class Chef
         attribute :remote_file_attributes, kind_of: Hash
         attribute :response_file, kind_of: String
         attribute :response_file_variables, kind_of: Hash
-        alias returns success_codes
+        alias_method :returns, :success_codes
       end
 
       self.resource_name = 'windows_package'

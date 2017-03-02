@@ -16,6 +16,7 @@
 
 require 'shellwords'
 
+
 module Poise
   module Utils
     # Utilities for working with Windows.
@@ -68,7 +69,7 @@ module Poise
         else
           command_line = '"'
           i = 0
-          loop do
+          while true
             number_backslashes = 0
 
             while i != string.size && string[i] == '\\'
@@ -108,18 +109,19 @@ module Poise
         # At some point when mixlib-shellout groks array commands on Windows,
         # we should support that here.
         parsed_args = array_mode ? args.flatten : Shellwords.split(args.first)
-        cmd = parsed_args.map { |s| argv_quote(s) }.join(' ')
+        cmd = parsed_args.map {|s| argv_quote(s) }.join(' ')
         if array_mode
           # This fails on non-Windows because of win32/process.
           require 'mixlib/shellout/windows'
           if Mixlib::ShellOut::Windows::Utils.should_run_under_cmd?(cmd)
             # If we are in array mode, try to make cmd.exe keep its grubby paws
             # off our metacharacters.
-            cmd = cmd.each_char.map { |c| '^' + c }.join('')
+            cmd = cmd.each_char.map {|c| '^'+c }.join('')
           end
         end
         cmd
       end
+
     end
   end
 end

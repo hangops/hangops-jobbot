@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module Poise
   module Backports
     # The correct interpolation key for any version of Chef.
@@ -24,9 +25,9 @@ module Poise
     #     verify "myapp -t #{Poise::Backports::VERIFY_PATH}"
     #   end
     VERIFY_PATH = if Gem::Version.create(Chef::VERSION) < Gem::Version.create('12.5.0')
-                    '%{file}'
-                  else
-                    '%{path}'
+      '%{file}'
+    else
+      '%{path}'
     end
   end
 end

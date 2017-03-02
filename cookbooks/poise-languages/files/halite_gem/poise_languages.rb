@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseLanguages
   autoload :Command, 'poise_languages/command'
   autoload :Error, 'poise_languages/error'

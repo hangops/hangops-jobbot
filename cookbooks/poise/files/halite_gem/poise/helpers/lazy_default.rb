@@ -16,6 +16,7 @@
 
 require 'chef/version'
 
+
 module Poise
   module Helpers
     # Resource mixin to allow lazyily-evaluated defaults in resource attributes.

@@ -18,6 +18,7 @@ require 'chef/provider'
 require 'chef/resource'
 require 'poise'
 
+
 module PoiseJavascript
   module Resources
     # (see JavascriptRuntimeTest::Resource)
@@ -94,7 +95,7 @@ EOH
             npm_install pkg_path do
               notifies :create, sentinel_file('npm_install_one'), :immediately
             end
-            npm_install pkg_path + '2' do
+            npm_install pkg_path+'2' do
               path pkg_path
               notifies :create, sentinel_file('npm_install_two'), :immediately
             end
@@ -113,11 +114,11 @@ EOH
               path test1_path
               notifies :create, sentinel_file('test1_express_two'), :immediately
             end
-            node_package %w(gulp less) do
+            node_package %w{gulp less} do
               path test1_path
               notifies :create, sentinel_file('test1_multi'), :immediately
             end
-            node_package %w(express bower) do
+            node_package %w{express bower} do
               path test1_path
               notifies :create, sentinel_file('test1_multi_overlap'), :immediately
             end
@@ -169,6 +170,7 @@ EOH
                 "#{grunt_path} --version > #{::File.join(new_resource.path, 'grunt_version')}"
               }
             end
+
           end
         end
 
@@ -197,7 +199,7 @@ EOH
           end
         end
 
-        def test_require(name, cwd, path = name, javascript: new_resource.name)
+        def test_require(name, cwd, path=name, javascript: new_resource.name)
           javascript_require_test = file ::File.join(cwd, 'javascript_require.js') do
             user 'root'
             group 'root'
@@ -217,6 +219,7 @@ EOH
             cwd cwd
           end
         end
+
       end
     end
   end

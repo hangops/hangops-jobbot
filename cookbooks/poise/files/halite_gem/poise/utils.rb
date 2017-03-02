@@ -16,6 +16,7 @@
 
 require 'poise/error'
 
+
 module Poise
   module Utils
     autoload :ResourceProviderMixin, 'poise/utils/resource_provider_mixin'
@@ -65,9 +66,9 @@ module Poise
           end
         end
       end
-      raise Poise::Error, "Unable to find cookbook for file #{filename.inspect}" if possibles.empty?
+      raise Poise::Error.new("Unable to find cookbook for file #{filename.inspect}") if possibles.empty?
       # Sort the items by matching path length, pick the name attached to the longest.
-      possibles.sort_by { |key, _value| key.length }.last[1]
+      possibles.sort_by{|key, value| key.length }.last[1]
     end
 
     # Try to find an ancestor to call a method on.
@@ -94,10 +95,11 @@ module Poise
       # Make sure we don't check obj itself.
       ancestors.concat(obj.ancestors.drop(1))
       ancestors.each do |mod|
-        next unless mod.respond_to?(msg)
-        val = mod.send(msg, *args)
-        # If we get the default back, assume we should keep trying.
-        return val unless ignore.include?(val)
+        if mod.respond_to?(msg)
+          val = mod.send(msg, *args)
+          # If we get the default back, assume we should keep trying.
+          return val unless ignore.include?(val)
+        end
       end
       # Nothing valid found, use the default.
       default
@@ -120,17 +122,17 @@ module Poise
     #     my_mixin_name(name)
     #   end
     def parameterized_module(mod, &block)
-      raise Poise::Error, 'Cannot parameterize an anonymous module' unless mod.name && !mod.name.empty?
+      raise Poise::Error.new("Cannot parameterize an anonymous module") unless mod.name && !mod.name.empty?
       parent_name_parts = mod.name.split(/::/)
       # Grab the last piece which will be the method name.
       mod_name = parent_name_parts.pop
       # Find the enclosing module or class object.
-      parent = parent_name_parts.inject(Object) { |memo, name| memo.const_get(name) }
+      parent = parent_name_parts.inject(Object) {|memo, name| memo.const_get(name) }
       # Object is a special case since we need #define_method instead.
       method_type = if parent == Object
-                      :define_method
-                    else
-                      :define_singleton_method
+        :define_method
+      else
+        :define_singleton_method
       end
       # Scoping hack.
       self_ = self
@@ -167,12 +169,13 @@ module Poise
       # Convert the block to a lambda-style proc. You can't make this shit up.
       obj = Object.new
       obj.define_singleton_method(:block, &block)
-      block = obj.method(:block).to_proc
+      block  = obj.method(:block).to_proc
       # Check
       required_args = block.arity < 0 ? ~block.arity : block.arity
       if args.length < required_args || (block.arity >= 0 && args.length > block.arity)
-        raise ArgumentError, "wrong number of arguments (#{args.length} for #{required_args}#{block.arity < 0 ? '+' : ''})"
+        raise ArgumentError.new("wrong number of arguments (#{args.length} for #{required_args}#{block.arity < 0 ? '+' : ''})")
       end
     end
+
   end
 end

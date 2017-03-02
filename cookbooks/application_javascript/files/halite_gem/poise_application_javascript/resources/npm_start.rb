@@ -22,6 +22,7 @@ require 'poise'
 
 require 'poise_application_javascript/service_mixin'
 
+
 module PoiseApplicationJavascript
   module Resources
     # (see NpmStart::Resource)
@@ -70,6 +71,7 @@ module PoiseApplicationJavascript
           new_path = [::File.dirname(new_resource.javascript), (new_resource.app_state_environment_javascript['PATH'] || ENV['PATH']).to_s].join(::File::PATH_SEPARATOR)
           resource.environment['PATH'] = new_path
         end
+
       end
     end
   end

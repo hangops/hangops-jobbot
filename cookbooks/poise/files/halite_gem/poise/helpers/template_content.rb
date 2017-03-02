@@ -22,6 +22,7 @@ require 'poise/helpers/lwrp_polyfill'
 require 'poise/helpers/option_collector'
 require 'poise/utils'
 
+
 module Poise
   module Helpers
     # A resource mixin to add a new kind of attribute, template content. TODO
@@ -34,7 +35,7 @@ module Poise
 
       # @!classmethods
       module ClassMethods
-        def attribute(name, options = {})
+        def attribute(name, options={})
           if options.delete(:template)
             name_prefix = name.empty? ? '' : "#{name}_"
 
@@ -72,7 +73,7 @@ module Poise
 
             # The big one, get/set content, but if you are getting and no
             # explicit content was given, try to render the template
-            define_method("#{name_prefix}content") do |arg = nil, no_compute = false|
+            define_method("#{name_prefix}content") do |arg=nil, no_compute=false|
               ret = set_or_return("#{name_prefix}content", arg, kind_of: String)
               if !ret && !arg && !no_compute
                 ret = send("_#{name_prefix}content")
@@ -161,6 +162,7 @@ module Poise
           val
         end
       end
+
     end
   end
 end

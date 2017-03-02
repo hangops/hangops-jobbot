@@ -18,6 +18,7 @@ require 'etc'
 
 require 'chef/mixin/shell_out'
 
+
 module Poise
   module Utils
     # A mixin to provider a better shell_out.

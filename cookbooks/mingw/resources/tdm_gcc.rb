@@ -33,14 +33,14 @@ tdm_gcc_64 = {
   'http://iweb.dl.sourceforge.net/project/tdm-gcc/GNU%20binutils/binutils-2.25-tdm64-1.tar.lzma' =>
     '4722bb7b4d46cef714234109e25e5d1cfd29f4e53365b6d615c8a00735f60e40',
   'http://iweb.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%205%20series/5.1.0-tdm64-1/gcc-5.1.0-tdm64-1-c%2B%2B.tar.lzma' =>
-    '17fd497318d1ac187a113e8665330d746ad9607a0406ab2374db0d8e6f4094d1'
+    '17fd497318d1ac187a113e8665330d746ad9607a0406ab2374db0d8e6f4094d1',
 }
 
 tdm_gcc_32 = {
   'http://iweb.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%205%20series/5.1.0-tdm-1%20SJLJ/gcc-5.1.0-tdm-1-core.tar.lzma' =>
     '9199e6ecbce956ff4704b52098beb38e313176ace610285fb93758a08752870e',
   'http://iweb.dl.sourceforge.net/project/tdm-gcc/TDM-GCC%205%20series/5.1.0-tdm-1%20SJLJ/gcc-5.1.0-tdm-1-c%2B%2B.tar.lzma' =>
-    '19fe46819ce43531d066b438479300027bbf06da57e8a10be5100466f80c28fc'
+    '19fe46819ce43531d066b438479300027bbf06da57e8a10be5100466f80c28fc',
 }
 
 action :install do
@@ -53,7 +53,7 @@ action :install do
       'libintl-dll=0.18.3.2',
       'mingwrt-dll=3.21.1',
       'mingwrt-dev=3.21.1',
-      'w32api-dev=3.17'
+      'w32api-dev=3.17',
     ].each do |package_fragment|
       mingw_get "install #{package_fragment} at #{f_root}" do
         package "mingw32-#{package_fragment}-*"

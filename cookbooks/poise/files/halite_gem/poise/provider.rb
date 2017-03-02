@@ -17,6 +17,7 @@
 require 'poise/helpers'
 require 'poise/utils'
 
+
 module Poise
   # Master provider mixin for Poise-based providers.
   #
@@ -41,7 +42,7 @@ module Poise
 
     # @!classmethods
     module ClassMethods
-      def poise_inversion(resource, attribute = nil)
+      def poise_inversion(resource, attribute=nil)
         include Poise::Helpers::Inversion
         inversion_resource(resource)
         inversion_attribute(attribute) if attribute

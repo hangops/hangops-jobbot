@@ -22,6 +22,7 @@ require 'poise_javascript/javascript_providers/nodejs'
 require 'poise_javascript/javascript_providers/scl'
 require 'poise_javascript/javascript_providers/system'
 
+
 module PoiseJavascript
   # Inversion providers for the javascript_runtime resource.
   #
@@ -30,10 +31,10 @@ module PoiseJavascript
     autoload :Base, 'poise_javascript/javascript_providers/base'
 
     Chef::Platform::ProviderPriorityMap.instance.priority(:javascript_runtime, [
-                                                            PoiseJavascript::JavascriptProviders::IOJS,
-                                                            PoiseJavascript::JavascriptProviders::NodeJS,
-                                                            PoiseJavascript::JavascriptProviders::Scl,
-                                                            PoiseJavascript::JavascriptProviders::System
-                                                          ])
+      PoiseJavascript::JavascriptProviders::IOJS,
+      PoiseJavascript::JavascriptProviders::NodeJS,
+      PoiseJavascript::JavascriptProviders::Scl,
+      PoiseJavascript::JavascriptProviders::System,
+    ])
   end
 end

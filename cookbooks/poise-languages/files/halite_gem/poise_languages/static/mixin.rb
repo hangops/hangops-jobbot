@@ -16,6 +16,7 @@
 
 require 'poise_languages/static/resource'
 
+
 module PoiseLanguages
   module Static
     # Mixin for language providers to install from static archives.
@@ -51,7 +52,7 @@ module PoiseLanguages
           version: options['static_version'],
           kernel: node['kernel']['name'].downcase,
           machine: node['kernel']['machine'],
-          machine_label: self.class.static_machine_label_wrapper(node, new_resource)
+          machine_label: self.class.static_machine_label_wrapper(node, new_resource),
         }
       end
 
@@ -75,7 +76,8 @@ module PoiseLanguages
         #
         # @api private
         def default_inversion_options(node, resource)
-          super.merge( # Path to install the package. Defaults to /opt/name-version.
+          super.merge({
+            # Path to install the package. Defaults to /opt/name-version.
             path: nil,
             # Number of times to retry failed downloads.
             retries: static_retries,
@@ -84,12 +86,12 @@ module PoiseLanguages
             # Value to pass to tar --strip-components.
             strip_components: static_strip_components,
             # URL template to download from.
-            url: static_url
-          )
+            url: static_url,
+          })
         end
 
-        def static_options(name: nil, versions: [], machines: %w(linux-i686 linux-x86_64), url: nil, strip_components: 1, retries: 5)
-          raise PoiseLanguages::Error, "Static archive URL is required, on #{self}" unless url
+        def static_options(name: nil, versions: [], machines: %w{linux-i686 linux-x86_64}, url: nil, strip_components: 1, retries: 5)
+          raise PoiseLanguages::Error.new("Static archive URL is required, on #{self}") unless url
           self.static_name = name || provides.to_s
           self.static_versions = versions
           self.static_machines = Set.new(machines)
@@ -98,18 +100,18 @@ module PoiseLanguages
           self.static_retries = retries
         end
 
-        def static_version(_node, resource)
+        def static_version(node, resource)
           raw_version = resource.version.to_s.gsub(/^#{static_name}(-|$)/, '')
           if static_versions.include?(raw_version)
             raw_version
           else
             # Prefix match or just use the given version number if not found.
             # This allow mild future proofing in some cases.
-            static_versions.find { |v| v.start_with?(raw_version) } || raw_version
+            static_versions.find {|v| v.start_with?(raw_version) } || raw_version
           end
         end
 
-        def static_machine_label(node, _resource = nil)
+        def static_machine_label(node, _resource=nil)
           "#{node['kernel']['name'].downcase}-#{node['kernel']['machine']}"
         end
 
@@ -128,6 +130,7 @@ module PoiseLanguages
           super
           klass.extend ClassMethods
         end
+
       end
 
       extend ClassMethods
@@ -135,6 +138,7 @@ module PoiseLanguages
       Poise::Utils.parameterized_module(self) do |opts|
         static_options(opts)
       end
+
     end
   end
 end

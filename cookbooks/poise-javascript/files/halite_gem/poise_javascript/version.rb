@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseJavascript
-  VERSION = '1.1.0'.freeze
+  VERSION = '1.1.0'
 end

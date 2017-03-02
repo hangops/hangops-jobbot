@@ -16,6 +16,7 @@
 
 require 'poise/subcontext/resource_collection'
 
+
 module Poise
   module Helpers
     # A provider mixin to help with creating subcontexts. Mostly for internal
@@ -25,7 +26,7 @@ module Poise
     module SubcontextBlock
       private
 
-      def subcontext_block(parent_context = nil, &block)
+      def subcontext_block(parent_context=nil, &block)
         # Setup a subcontext.
         parent_context ||= @run_context
         sub_run_context = parent_context.dup

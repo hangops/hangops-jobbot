@@ -20,6 +20,7 @@
 require 'poise/helpers/lwrp_polyfill'
 require 'poise/helpers/resource_name'
 
+
 module Poise
   module Helpers
     # A resource mixin to register ChefSpec matchers for a resource

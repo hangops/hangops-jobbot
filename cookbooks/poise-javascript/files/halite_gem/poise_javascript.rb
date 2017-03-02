@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseJavascript
   autoload :Error, 'poise_javascript/error'
   autoload :Resources, 'poise_javascript/resources'

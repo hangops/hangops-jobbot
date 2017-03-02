@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseService
-  VERSION = '1.4.2'.freeze
+  VERSION = '1.4.2'
 end

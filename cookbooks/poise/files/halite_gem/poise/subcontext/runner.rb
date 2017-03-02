@@ -16,6 +16,7 @@
 
 require 'chef/runner'
 
+
 module Poise
   module Subcontext
     # A subclass of the normal Chef Runner that migrates delayed notifications
@@ -30,7 +31,7 @@ module Poise
         @resource = resource
       end
 
-      def run_delayed_notifications(error = nil)
+      def run_delayed_notifications(error=nil)
         # If there is an error, just do the normal thing. The return shouldn't
         # ever fire because the superclass re-raises if there is an error.
         return super if error
@@ -40,7 +41,7 @@ module Poise
           else
             notifications = run_context.parent_run_context.delayed_notifications(@resource)
             if notifications.any? { |existing_notification| existing_notification.duplicates?(notification) }
-              Chef::Log.info("#{@resource} not queuing delayed action #{notification.action} on #{notification.resource}"\
+              Chef::Log.info( "#{@resource} not queuing delayed action #{notification.action} on #{notification.resource}"\
                              " (delayed), as it's already been queued")
             else
               notifications << notification
@@ -48,6 +49,7 @@ module Poise
           end
         end
       end
+
     end
   end
 end

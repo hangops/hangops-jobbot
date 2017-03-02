@@ -18,6 +18,7 @@ require 'poise'
 
 require 'poise_service/resources/poise_service'
 
+
 module PoiseService
   # Mixin for application services. This is any resource that will be part of
   # an application deployment and involves running a persistent service.
@@ -150,7 +151,7 @@ module PoiseService
       #   end
       def notify_if_service(&block)
         service_resource.updated_by_last_action(false)
-        yield if block
+        block.call if block
         new_resource.updated_by_last_action(true) if service_resource.updated_by_last_action?
       end
 

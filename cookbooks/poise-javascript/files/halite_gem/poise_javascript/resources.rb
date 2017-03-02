@@ -19,6 +19,7 @@ require 'poise_javascript/resources/javascript_runtime'
 require 'poise_javascript/resources/node_package'
 require 'poise_javascript/resources/npm_install'
 
+
 module PoiseJavascript
   # Chef resources and providers for poise-javascript.
   #

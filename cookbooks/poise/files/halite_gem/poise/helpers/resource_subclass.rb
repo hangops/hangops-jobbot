@@ -17,6 +17,7 @@
 require 'poise/error'
 require 'poise/helpers/resource_name'
 
+
 module Poise
   module Helpers
     # A resource mixin to help subclass existing resources.
@@ -26,14 +27,14 @@ module Poise
       include ResourceName
 
       module ClassMethods
-        def subclass_providers!(superclass_resource_name = nil, resource_name: nil)
+        def subclass_providers!(superclass_resource_name=nil, resource_name: nil)
           resource_name ||= self.resource_name
           superclass_resource_name ||= if superclass.respond_to?(:resource_name)
-                                         superclass.resource_name
-                                       elsif superclass.respond_to?(:dsl_name)
-                                         superclass.dsl_name
-                                       else
-                                         raise Poise::Error, "Unable to determine superclass resource name for #{superclass}. Please specify name manually via subclass_providers!('name')."
+            superclass.resource_name
+          elsif superclass.respond_to?(:dsl_name)
+            superclass.dsl_name
+          else
+            raise Poise::Error.new("Unable to determine superclass resource name for #{superclass}. Please specify name manually via subclass_providers!('name').")
           end.to_sym
           # Deal with the node maps.
           node_maps = {}
@@ -76,5 +77,6 @@ module Poise
 
       extend ClassMethods
     end
+
   end
 end

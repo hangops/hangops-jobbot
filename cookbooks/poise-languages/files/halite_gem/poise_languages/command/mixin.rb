@@ -21,6 +21,7 @@ require 'poise'
 require 'poise_languages/error'
 require 'poise_languages/utils'
 
+
 module PoiseLanguages
   module Command
     # A mixin for resources and providers that run language commands.
@@ -50,11 +51,8 @@ module PoiseLanguages
         # @param runtime [Symbol] Language runtime resource name.
         # @param val [String, Chef::Resource, Poise::NOT_PASSED, nil] Accessor value.
         # @return [String]
-        def language_command_runtime(name, runtime, default_binary, val = Poise::NOT_PASSED)
-          if val == Poise::NOT_PASSED
-            # Getter behavior. Using the ivar directly is kind of gross but oh well.
-            instance_variable_get(:"@#{name}") || default_language_command_runtime(name, default_binary)
-          else
+        def language_command_runtime(name, runtime, default_binary, val=Poise::NOT_PASSED)
+          unless val == Poise::NOT_PASSED
             path_arg = parent_arg = nil
             # Figure out which property we are setting.
             if val.is_a?(String)
@@ -80,6 +78,9 @@ module PoiseLanguages
             # Set both attributes.
             send(:"parent_#{name}", parent_arg)
             set_or_return(name, path_arg, kind_of: [String, NilClass])
+          else
+            # Getter behavior. Using the ivar directly is kind of gross but oh well.
+            instance_variable_get(:"@#{name}") || default_language_command_runtime(name, default_binary)
           end
         end
 
@@ -109,7 +110,9 @@ module PoiseLanguages
             send(:"parent_#{name}", parent)
           else
             path = resource.send(name)
-            send(name, path) if path
+            if path
+              send(name, path)
+            end
           end
         end
 
@@ -129,7 +132,7 @@ module PoiseLanguages
             attribute(:timeout, kind_of: Integer, default: 900) if timeout
 
             # Create the main accessor for the parent/path.
-            define_method(name) do |val = Poise::NOT_PASSED|
+            define_method(name) do |val=Poise::NOT_PASSED|
               language_command_runtime(name, runtime, default_binary, val)
             end
 
@@ -140,7 +143,7 @@ module PoiseLanguages
             private :"#{name}_from_parent"
           end
 
-          def language_command_default_binary(val = Poise::NOT_PASSED)
+          def language_command_default_binary(val=Poise::NOT_PASSED)
             @language_command_default_binary = val if val != Poise::NOT_PASSED
             @language_command_default_binary
           end
@@ -153,7 +156,7 @@ module PoiseLanguages
         end
 
         extend ClassMethods
-        Poise::Utils.parameterized_module(self) { |*args| language_command_mixin(*args) }
+        Poise::Utils.parameterized_module(self) {|*args| language_command_mixin(*args) }
       end # /module Resource
 
       # A mixin for providers that run language commands.
@@ -181,13 +184,13 @@ module PoiseLanguages
           # which happens if no parent resource is found, no explicit default
           # binary was given, and which() fails to find a thing.
           binary = new_resource.send(name)
-          raise Error, "Unable to find a #{name} binary for command: #{command_args.is_a?(Array) ? Shellwords.shelljoin(command_args) : command_args}" unless binary
+          raise Error.new("Unable to find a #{name} binary for command: #{command_args.is_a?(Array) ? Shellwords.shelljoin(command_args) : command_args}") unless binary
           command = if command_args.length == 1 && command_args.first.is_a?(String)
-                      # String mode, sigh.
-                      "#{Shellwords.escape(binary)} #{command_args.first}"
-                    else
-                      # Array mode. Handle both ('one', 'two') and (['one', 'two']).
-                      [binary] + command_args.flatten
+            # String mode, sigh.
+            "#{Shellwords.escape(binary)} #{command_args.first}"
+          else
+            # Array mode. Handle both ('one', 'two') and (['one', 'two']).
+            [binary] + command_args.flatten
           end
           Chef::Log.debug("[#{new_resource}] Running #{name} command: #{command.is_a?(Array) ? Shellwords.shelljoin(command) : command}")
           # Run the command
@@ -229,10 +232,10 @@ module PoiseLanguages
         end
 
         extend ClassMethods
-        Poise::Utils.parameterized_module(self) { |*args| language_command_mixin(*args) }
+        Poise::Utils.parameterized_module(self) {|*args| language_command_mixin(*args) }
       end # /module Provider
 
-      Poise::Utils.parameterized_module(self) { |*args| language_command_mixin(*args) }
+      Poise::Utils.parameterized_module(self) {|*args| language_command_mixin(*args) }
     end # /module Mixin
   end
 end

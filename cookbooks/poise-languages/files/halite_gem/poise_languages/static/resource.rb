@@ -18,6 +18,7 @@ require 'chef/resource'
 require 'chef/provider'
 require 'poise'
 
+
 module PoiseLanguages
   module Static
     # A `poise_languages_static` resource to manage installing a language from
@@ -132,6 +133,7 @@ module PoiseLanguages
           recursive true
         end
       end
+
     end
   end
 end

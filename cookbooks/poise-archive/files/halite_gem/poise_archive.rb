@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module PoiseArchive
   autoload :Resources, 'poise_archive/resources'
   autoload :VERSION, 'poise_archive/version'

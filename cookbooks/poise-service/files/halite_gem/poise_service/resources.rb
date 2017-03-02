@@ -17,6 +17,7 @@
 require 'poise_service/resources/poise_service'
 require 'poise_service/resources/poise_service_user'
 
+
 module PoiseService
   # Chef resources and providers for poise-service.
   #

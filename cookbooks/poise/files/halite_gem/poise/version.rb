@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+
 module Poise
-  VERSION = '2.7.2'.freeze
+  VERSION = '2.7.2'
 end
