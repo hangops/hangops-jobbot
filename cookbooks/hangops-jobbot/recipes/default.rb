@@ -14,6 +14,12 @@
 # limitations under the License.
 #
 
+# Create a Hubot user
+user 'hubot' do
+   action :create #default action
+   group "groupid"
+end
+
 # Clone the source code from GitHub.
 git '/srv/hubot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
