@@ -14,7 +14,15 @@
 # limitations under the License.
 #
 
-# Create a Hubot user
+# Create a robots group
+group 'robots' do
+   gid 'robots'
+   system True
+   non_unique False
+   notifies :create, 'user[hubot]' :immediately
+end
+
+# Create a hubot user
 user 'hubot' do
    action :create #default action
    group "groupid"
