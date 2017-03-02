@@ -14,6 +14,19 @@
 # limitations under the License.
 #
 
+# Create a robots group
+group 'robots' do
+   gid 'robots'
+   non_unique False
+   notifies :create, 'user[hubot]' :immediately
+end
+
+# Create a hubot user
+user 'hubot' do
+   action :create #default action
+   group "groupid"
+end
+
 # Clone the source code from GitHub.
 git '/srv/hubot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
