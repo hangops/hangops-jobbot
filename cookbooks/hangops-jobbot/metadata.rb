@@ -25,4 +25,5 @@ version          '0.0.5'
 
 name 'hangops-jobbot'
 
+depends 'git', '~> 6.0.0'
 depends 'nodejs', '~> 3.0.0'

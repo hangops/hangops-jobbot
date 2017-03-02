@@ -13,18 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe 'git::default'
 
 # Create a robots group
 group 'robots' do
-   gid 'robots'
-   non_unique False
-   notifies :create, 'user[hubot]' :immediately
+  action :create
+  notifies :create, 'user[hubot]', :immediately
 end
 
 # Create a hubot user
 user 'hubot' do
-   action :create #default action
-   group "groupid"
+  action :create # default action
+  non_unique false
+  group 'robots'
+end
+
+# Create user sntxrr so test kitchen doesn't fail
+user 'sntxrr' do
+  action :create
+  non_unique false
 end
 
 # Clone the source code from GitHub.
@@ -44,10 +51,10 @@ end
 
 # drop the Hubot service file into place
 # TODO: once we have a user recipe, change user to hubot
-cookbook_file "/etc/systemd/system/hubot.service" do
-  source "systemd.service"
-  owner "sntxrr"
-  mode "0644"
+cookbook_file '/etc/systemd/system/hubot.service' do
+  source 'systemd.service'
+  owner 'sntxrr'
+  mode '0644'
 end
 
 # Do some more stuff, then notify hubot to start
