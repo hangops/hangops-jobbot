@@ -25,7 +25,4 @@ version          '0.0.4'
 
 name 'hangops-jobbot'
 
-depends 'application'
-depends 'application_git'
-depends 'application_javascript'
 depends 'nodejs', '~> 3.0.0'
