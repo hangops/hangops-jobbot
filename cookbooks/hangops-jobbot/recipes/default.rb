@@ -17,7 +17,6 @@
 # Create a robots group
 group 'robots' do
    gid 'robots'
-   system True
    non_unique False
    notifies :create, 'user[hubot]' :immediately
 end
