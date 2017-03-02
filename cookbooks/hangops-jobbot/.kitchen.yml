@@ -1,0 +1,17 @@
+---
+driver:
+  name: vagrant
+  customize:
+        cableconnected1: 'on'
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-16.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[hangops-jobbot::default]
+    attributes:

@@ -2,6 +2,11 @@
 .chef/*.pem
 .chef/encrypted_data_bag_secret
 .chef/syntaxcache/*
+.kitchen/*
+
+# Misc
+*.log
+node_modules
 
 # Ruby
 .rake_test_cache

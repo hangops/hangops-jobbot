@@ -2,8 +2,9 @@
 
 This file is used to list changes made in each version of the hubot-jobbot cookbook.
 
-## 0.1.0
-- [your_name] - Initial release of hubot-jobbot
+## 0.0.1
+- gabinante - first pass at getting hangops-jobbot to converge.
+    TODO: Find keys / username / etc for testing hubot javascript service, make sure it actually runs.
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
