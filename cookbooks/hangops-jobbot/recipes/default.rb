@@ -14,21 +14,19 @@
 # limitations under the License.
 #
 
-application '/srv/hubot' do
-  # Clone the source code from GitHub.
-  git 'https://github.com/rrxtns/hangops-jobbot.git'
-
-  # Install the latest Node.js.
-  javascript 'nodejs'
-  
-  # Install coffeescript globally.
-  node_package 'coffeescript' do
-    global true
-  end
-  
-  # Run `npm install` to install dependencies.
-  npm_install
-  
-  # Create a system service.
-  javascript_service '/srv/hubot/bin/hubot'
+# Clone the source code from GitHub.
+git '/srv/hubot' do
+  repository 'https://github.com/rrxtns/hangops-jobbot.git'
+  action :checkout
 end
+
+# Install nodejs and hubot dependencies
+include_recipe 'hangops-jobbot::nodejs'
+
+# Create a system service.
+service 'hubot' do
+  init_command '/srv/hubot/bin/hubot --adapter slack'
+  action :nothing
+end
+
+# Do some more stuff, then notify hubot to start
