@@ -15,7 +15,7 @@ addons:
       - chefdk
 
 # Don't `bundle install` which takes about 1.5 mins
-install: echo "skip bundle install"
+install: bundle install
 
 branches:
   only:
@@ -24,10 +24,7 @@ branches:
 services: docker
 
 env:
-  - INSTANCE=upstream-repo-ubuntu-1604
-  - INSTANCE=distro-packages-ubuntu-1604
-  - INSTANCE=source-ubuntu-1604
-  - INSTANCE=modules-ubuntu-1604
+  - INSTANCE=ubuntu-1604
 
 before_script:
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
