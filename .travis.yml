@@ -14,9 +14,9 @@ addons:
     packages:
       - chefdk
 
-# Don't `bundle install` which takes about 1.5 mins
 install:
   - cd ./cookbooks/hangops-jobbot
+  - rm -rf Gemfile.lock
   - gem install bundler
   - bundle update
   - bundle install
@@ -42,4 +42,3 @@ script:
   - pwd
   - bundle exec rake
   #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
-
