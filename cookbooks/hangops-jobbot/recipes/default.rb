@@ -44,17 +44,17 @@ end
 include_recipe 'hangops-jobbot::nodejs'
 
 # Create a system service.
-service 'hubot' do
-  init_command '/srv/hubot/bin/hubot --adapter slack'
-  action :nothing
-end
+#service 'hubot' do
+#  init_command '/srv/hubot/bin/hubot --adapter slack'
+#  action :nothing
+#end
 
 # drop the Hubot service file into place
 # TODO: once we have a user recipe, change user to hubot
 cookbook_file '/etc/systemd/system/hubot.service' do
   source 'systemd.service'
-  owner 'sntxrr'
-  mode '0644'
+  owner 'root'
+  mode '0755'
 end
 
 # Do some more stuff, then notify hubot to start

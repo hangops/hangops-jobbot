@@ -21,9 +21,10 @@ maintainer_email 'sntxrr+github@gmail.com'
 license          'All rights reserved'
 description      'Installs/Configures hubot-jobbot'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.5'
+version          '0.0.10'
 
 name 'hangops-jobbot'
 
 depends 'git', '~> 6.0.0'
 depends 'nodejs', '~> 3.0.0'
+depends 'redis', '~> 3.0.4'

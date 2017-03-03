@@ -9,7 +9,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/srv/hubot
-User=hangops-hubot
+User=hubot
 
 Restart=always
 RestartSec=10
@@ -17,7 +17,7 @@ RestartSec=10
 ; Configure Hubot environment variables, make sure to use quotes around whitespace as shown below.
 Environment=HUBOT_aaa=xxx "HUBOT_bbb='yyy yyy'"
 
-ExecStart=/srv/bin/hubot --adapter slack
+ExecStart=/srv/hubot/bin --adapter slack --owner="Syntax Error <sntxrr+hangops@gmail.com>" --name="Hangops-Jobbot"
 
 [Install]
 WantedBy=multi-user.target
