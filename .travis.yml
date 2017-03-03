@@ -15,7 +15,9 @@ addons:
       - chefdk
 
 # Don't `bundle install` which takes about 1.5 mins
-install: bundle install
+install:
+  - cd ./cookbooks/hangops-jobbot 
+  - bundle install
 
 branches:
   only:
