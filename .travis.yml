@@ -14,7 +14,10 @@ addons:
     packages:
       - chefdk
 
+bundler_args: --without='vagrant'
+
 install:
+  - source start_docker.sh
   - cd ./cookbooks/hangops-jobbot
   - rm -rf Gemfile.lock
   - gem install bundler
@@ -41,5 +44,5 @@ script:
   #- cd ./cookbooks/hangops-jobbot
   - pwd
   - bundle --full-index
-  - bundle exec rake
+  - bundle exec rake travis
   #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}

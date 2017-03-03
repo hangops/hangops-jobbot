@@ -1,25 +1,11 @@
-language: ruby
+---
+driver:
+  name: docker
 
-env:
-  global:
-    - machine_user=travis
-    - machine_pass=travis
-    - machine_port=22
-    - KITCHEN_YAML=.kitchen.travis.yml
+platforms:
+    - name: ubuntu-14.04
 
-rvm:
-  - 2.1.7
-
-sudo: required
-dist: trusty
-
-before_install:
-  - sudo usermod -p "`openssl passwd -1 'travis'`" travis
-
-script:
-  - bundle exec rake
-  - bundle exec kitchen verify ubuntu
-
-branches:
-  only:
-  - master
+suites:
+  - name: default
+    run_list:
+      - recipe[hangops-jobbot::default]

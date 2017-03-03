@@ -44,10 +44,10 @@ end
 include_recipe 'hangops-jobbot::nodejs'
 
 # Create a system service.
-#service 'hubot' do
+# service 'hubot' do
 #  init_command '/srv/hubot/bin/hubot --adapter slack'
 #  action :nothing
-#end
+# end
 
 # drop the Hubot service file into place
 # TODO: once we have a user recipe, change user to hubot
