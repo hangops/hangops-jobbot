@@ -17,6 +17,8 @@ addons:
 bundler_args: --without='vagrant'
 
 install:
+  - apt-get install dmsetup
+  - dmsetup mknodes
   - source start_docker.sh
   - cd ./cookbooks/hangops-jobbot
   - rm -rf Gemfile.lock
