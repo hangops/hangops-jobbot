@@ -15,15 +15,13 @@
 # limitations under the License.
 #
 
-name             'hubot-jobbot'
+name             'hangops-jobbot'
 maintainer       'Akbar Enterprises'
 maintainer_email 'sntxrr+github@gmail.com'
 license          'All rights reserved'
-description      'Installs/Configures hubot-jobbot'
+description      'Installs/Configures hangops-jobbot'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.0.10'
-
-name 'hangops-jobbot'
+version          '0.0.11'
 
 depends 'git', '~> 6.0.0'
 depends 'nodejs', '~> 3.0.0'
