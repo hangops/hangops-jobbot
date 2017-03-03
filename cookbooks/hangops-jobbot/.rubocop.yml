@@ -1,0 +1,4 @@
+AllCops:
+  Excludes:
+    - lib/kitchen/driver/*
+    - lib/kitchen/driver/rocker/*

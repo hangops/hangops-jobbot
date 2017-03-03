@@ -41,9 +41,6 @@ namespace :integration do
   desc 'Run Test Kitchen with cloud plugins'
   task :cloud do
     run_kitchen = true
-    if ENV['TRAVIS'] == 'true' && ENV['TRAVIS_PULL_REQUEST'] != 'false'
-      run_kitchen = false
-    end
     if run_kitchen
       Kitchen.logger = Kitchen.default_file_logger
       @loader =
