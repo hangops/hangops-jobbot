@@ -4,3 +4,38 @@ notifications:
   slack:
     secure: LiuCaSXhz0clGvt6daPWowfOjMatF5LS50zlo9PlXjdArVNVkq3dpEGh6O0isvyzqUm34UNw4Gqqug4pVSjWr1A4tgryDtBwLGsxJxMYc5XweEek6mDazR15Q7mdmdXApjn9jcB47A7uEKoT9UR39HxvZQVSrNN0yGIjZdSb/CqXETvo2FZ6cL4fF4UE7IwoL5/+KKlhn9PmABMPEx0tjrGfhCOHNNdv69kB3tAsdJQoZpiiIxKnsuJ4a1o5viy2J2hGG67nkTUYGnFwtRAlOn+QbUNZ2Mc3YNyB10eZ9rjls6ukRbiOVUD3fL9Hr3lRfs8kOTlrK2eUluFzc+maCH2MChsINsJev0lT7/HVZaJgG9RTuxOhZDvy6iZOhIH0W6Ofc1kbTos1oD2yys6/MmablAOIoJMx91QmaZMtFLC/o+iAd+ozJy4eY+YYJiySFniNcxq6lpc2QBF6ct36mibNqyCeU3NrBzyih8C1v8MBx91WTbwLpOh/pOvuB7Ap89DNAHeIeppYQ1yBCtRu8hbksWToiwxQVkXXJRMz98G/72TJ22naA9OsV0CLyTeKXnOgKXW73RR4zxyx/9o4hR36vnZ8cEVocYUWAGmHfrk8CzInLhzmogUZhlnyMHZjoz3SWQS4+FxgFdsZFLkwzl3U7luesBaOcC7bubtGWfs=
 sudo: false
+
+dist: trusty
+
+addons:
+  apt:
+    sources:
+      - chef-stable-trusty
+    packages:
+      - chefdk
+
+# Don't `bundle install` which takes about 1.5 mins
+install: echo "skip bundle install"
+
+branches:
+  only:
+    - master
+
+services: docker
+
+env:
+  - INSTANCE=upstream-repo-ubuntu-1604
+  - INSTANCE=distro-packages-ubuntu-1604
+  - INSTANCE=source-ubuntu-1604
+  - INSTANCE=modules-ubuntu-1604
+
+before_script:
+  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  - /opt/chefdk/embedded/bin/chef --version
+  - /opt/chefdk/embedded/bin/cookstyle --version
+  - /opt/chefdk/embedded/bin/foodcritic --version
+
+script: 
+  - bundle exec rake
+  #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+
