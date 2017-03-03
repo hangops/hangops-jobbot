@@ -2,6 +2,10 @@
 driver:
   name: docker
 
-  platforms:
- - name: ubuntu-16.04
-   run_list: recipe[hangops-jobbot::default]
+platforms:
+    - name: ubuntu-16.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[hangops-jobbot::default]
