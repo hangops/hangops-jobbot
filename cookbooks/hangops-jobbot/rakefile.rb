@@ -37,7 +37,7 @@ namespace :local do
     end
   end
 end
-namespace :travis do
+namespace :integration do
   desc 'Run Test Kitchen with cloud plugins'
   task :cloud do
     run_kitchen = true
@@ -65,7 +65,7 @@ namespace :travis do
 end
 
 desc 'Run all tests on Travis CI'
-task travis: ['style', 'spec', 'travis:cloud']
+task travis: ['style', 'spec', 'integration:cloud']
 
 # Default
 task default: ['style', 'spec', 'local:vagrant']

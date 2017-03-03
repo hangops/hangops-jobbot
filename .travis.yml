@@ -14,7 +14,10 @@ addons:
     packages:
       - chefdk
 
+bundler_args: --without='vagrant'
+
 install:
+  - source start_docker.sh
   - cd ./cookbooks/hangops-jobbot
   - rm -rf Gemfile.lock
   - gem install bundler
