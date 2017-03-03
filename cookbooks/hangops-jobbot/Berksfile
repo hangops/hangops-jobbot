@@ -1,7 +1,4 @@
-source "https://supermarket.chef.io"
+source 'https://supermarket.chef.io'
 
 metadata
-cookbook 'application', path: "../application"
-cookbook 'application_git', path: "../application_git"
-cookbook 'application_javascript', path: "../application_javascript"
-cookbook 'nodejs', git: "https://github.com/redguide/nodejs.git"
+cookbook 'nodejs', git: 'https://github.com/redguide/nodejs.git'
