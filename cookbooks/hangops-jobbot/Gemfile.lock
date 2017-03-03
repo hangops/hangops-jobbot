@@ -177,6 +177,7 @@ DEPENDENCIES
   berkshelf
   foodcritic
   kitchen-vagrant (~> 0.19.0)
+  public_suffix (~> 2.0.4)
   rake
   rspec
   rubocop
