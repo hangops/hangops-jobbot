@@ -33,6 +33,7 @@ before_script:
   - /opt/chefdk/embedded/bin/foodcritic --version
 
 script: 
+  - cd cookbooks/hangops-jobbot
   - bundle exec rake
   #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
 
