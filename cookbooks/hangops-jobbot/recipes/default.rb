@@ -43,10 +43,10 @@ end
 # Install nodejs and hubot dependencies
 include_recipe 'hangops-jobbot::nodejs'
 
-#  Create a system service.
+# Create a system service.
 # service 'hubot' do
-#   init_command '/srv/hubot/bin/hubot --adapter slack'
-#   action :nothing
+#  init_command '/srv/hubot/bin/hubot --adapter slack'
+#  action :nothing
 # end
 
 # drop the Hubot service file into place
