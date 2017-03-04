@@ -56,11 +56,11 @@ cookbook_file '/etc/systemd/system/hubot.service' do
 end
 
 service 'systemctl' do
-  supports :reload => true
+  supports reload: true
 end
 
 service 'hubot' do
-  supports :restart => true, :reload => true
+  supports restart: true, reload: true
   action [:enable, :start]
 end
 
