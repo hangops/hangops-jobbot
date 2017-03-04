@@ -47,14 +47,13 @@ include_recipe 'hangops-jobbot::nodejs'
 include_recipe 'redis::default'
 
 # drop the Hubot service file into place
+# TODO: need to get a databag going with encrypted values
+#       for the Slack API etc.
 cookbook_file '/etc/systemd/system/hubot.service' do
   source 'systemd.service'
   owner 'root'
   mode '0600'
 end
-
-# TODO: need these added -
-#    `systemctl daemon-reload` and `service hubot start`
 
 service 'systemctl' do
   supports :reload => true
