@@ -43,18 +43,26 @@ end
 # Install nodejs and hubot dependencies
 include_recipe 'hangops-jobbot::nodejs'
 
-# Create a system service.
-# service 'hubot' do
-#  init_command '/srv/hubot/bin/hubot --adapter slack'
-#  action :nothing
-# end
+# Install Redis
+include_recipe 'redis::default'
 
 # drop the Hubot service file into place
-# TODO: once we have a user recipe, change user to hubot
 cookbook_file '/etc/systemd/system/hubot.service' do
   source 'systemd.service'
   owner 'root'
-  mode '0755'
+  mode '0600'
+end
+
+# TODO: need these added -
+#    `systemctl daemon-reload` and `service hubot start`
+
+service 'systemctl' do
+  supports :reload => true
+end
+
+service 'hubot' do
+  supports :restart => true, :reload => true
+  action [:enable, :start]
 end
 
 # Do some more stuff, then notify hubot to start
