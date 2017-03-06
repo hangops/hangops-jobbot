@@ -18,7 +18,7 @@ bundler_args: --without='vagrant'
 
 install:
   - source start_docker.sh
-  - echo 'DOCKER_OPTS="--ip-masq=true --dns my_ip_dns_win --dns 8.8.8.8 --dns 8.8.4.4"' | sudo tee -a /etc/default/docker > /dev/null
+  - echo 'DOCKER_OPTS="--ip-masq=true --dns my_ip_dns_win --dns 8.8.8.8 --dns 8.8.4.4 --mtu 1400"' | sudo tee -a /etc/default/docker > /dev/null
   - sudo bash hostsreplace.sh
   - cd ./cookbooks/hangops-jobbot
   - gem install bundler
