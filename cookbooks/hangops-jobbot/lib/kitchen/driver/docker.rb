@@ -198,7 +198,8 @@ module Kitchen
                      packages = <<-eos
             ENV DEBIAN_FRONTEND noninteractive
             ENV container docker
-            RUN sudo apt-get update
+            RUN ping archive.ubuntu.com
+            RUN apt-get update
             RUN apt-get install -y sudo openssh-server curl lsb-release
           eos
                      config[:disable_upstart] ? disable_upstart + packages : packages
