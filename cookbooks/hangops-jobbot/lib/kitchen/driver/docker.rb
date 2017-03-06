@@ -198,6 +198,7 @@ module Kitchen
                      packages = <<-eos
             ENV DEBIAN_FRONTEND noninteractive
             ENV container docker
+            RUN apt-get install ping
             RUN ping archive.ubuntu.com
             RUN apt-get update
             RUN apt-get install -y sudo openssh-server curl lsb-release
