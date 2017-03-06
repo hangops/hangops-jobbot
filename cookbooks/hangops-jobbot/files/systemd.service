@@ -15,9 +15,11 @@ Restart=always
 RestartSec=10
 
 ; Configure Hubot environment variables, make sure to use quotes around whitespace as shown below.
-Environment=HUBOT_aaa=xxx "HUBOT_bbb='yyy yyy'"
+Environment=HUBOT_SLACK_TOKEN=XXXXXX HUBOT_LOG_LEVEL="debug" REDIS_URL=redis://127.0.0.1:6379/hangops-jobbot HUBOT_SLACK_BOTNAME=hangops-jobbot
+; "HUBOT_bbb='yyy yyy'"
 
-ExecStart=/srv/hubot/bin --adapter slack --owner="Syntax Error <sntxrr+hangops@gmail.com>" --name="Hangops-Jobbot"
+ExecStart=/srv/hubot/bin/hubot --adapter slack 
+;--owner="Syntax Error <sntxrr+hangops@gmail.com>" --name="Hangops-Jobbot"
 
 [Install]
 WantedBy=multi-user.target

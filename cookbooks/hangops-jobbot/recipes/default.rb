@@ -43,18 +43,42 @@ end
 # Install nodejs and hubot dependencies
 include_recipe 'hangops-jobbot::nodejs'
 
-# Create a system service.
-# service 'hubot' do
-#  init_command '/srv/hubot/bin/hubot --adapter slack'
-#  action :nothing
-# end
+# Install Runit
+include_recipe 'runit::default'
+
+# Install Redis
+include_recipe 'redis::install_from_package'
 
 # drop the Hubot service file into place
-# TODO: once we have a user recipe, change user to hubot
+# TODO: need to get a databag going with encrypted values
+#       for the Slack API etc.
 cookbook_file '/etc/systemd/system/hubot.service' do
   source 'systemd.service'
   owner 'root'
-  mode '0755'
+  mode '0600'
+end
+
+# drop the external-scripts.json file in place
+cookbook_file '/srv/hubot/external-scripts.json' do
+  source 'external-scripts.json'
+  owner 'root'
+  mode '0644'
+end
+
+# drop the hangops-jobbot.coffee file in place
+cookbook_file '/srv/hubot/hangops-jobbot.coffee' do
+  source 'hangops-jobbot.coffee'
+  owner 'root'
+  mode '0644'
+end
+
+service 'systemctl' do
+  supports reload: true
+end
+
+service 'hubot' do
+  supports restart: true, reload: true
+  action [:enable, :start]
 end
 
 # Do some more stuff, then notify hubot to start
