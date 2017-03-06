@@ -23,14 +23,19 @@ execute 'install-dependencies' do
   command 'cd /srv/hubot;sudo npm install'
 end
 
-# need another hubot script, copy this one and change it!
+# Install the Slack adapter
 execute 'install-hubot-slack' do
   command 'cd /srv/hubot;sudo npm install hubot-slack --save'
 end
 
-# need another hubot script, copy this one and change it!
+# Install the Redis brain plugin
 execute 'install-hubot-redis-brain' do
   command 'cd /srv/hubot;sudo npm install hubot-redis-brain --save'
+end
+
+# Install Hubot diagnostics
+execute 'install-hubot-diagnostics' do
+  command 'cd /srv/hubot;sudo npm install hubot-diagnostics --save'
 end
 
 # Ubuntu needs a symlink
