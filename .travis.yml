@@ -35,12 +35,11 @@ before_script:
   - /opt/chefdk/embedded/bin/chef --version
   - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
-  - pwd
+  - /opt/chefdk/embedded/bin/gem install kitchen-dokken
 
 script:
   #- cd ./cookbooks/hangops-jobbot
   - pwd
-  - gem install kitchen-dokken
   - bundle --full-index
   - bundle exec rake travis
   #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
