@@ -15,7 +15,7 @@ transport:
 
 platforms:
     - name: ubuntu-16.04
-     driver:
+      driver:
         image: ubuntu:16.04
 
 suites:
