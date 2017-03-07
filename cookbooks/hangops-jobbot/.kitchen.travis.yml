@@ -1,9 +1,22 @@
 ---
 driver:
-  name: docker
+  name: dokken
+  chef_version: latest
+
+provisioner:
+  name: dokken
+
+transport:
+  name: dokken
+
+# Commented out for testing
+# driver:
+#   name: docker
 
 platforms:
     - name: ubuntu-16.04
+      driver:
+        image: ubuntu:16.04
 
 suites:
   - name: default
