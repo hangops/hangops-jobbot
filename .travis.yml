@@ -2,11 +2,6 @@ sudo: required
 dist: trusty
 language: ruby
 
-rvm:
-- "2.1.9"
-- "2.2.5"
-- "2.3.1"
-
 services:
 - docker
 
@@ -29,16 +24,8 @@ branches:
   only:
     - master
 
-before_script:
-  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/cookstyle --version
-  - /opt/chefdk/embedded/bin/foodcritic --version
-  - pwd
-
 script:
   #- cd ./cookbooks/hangops-jobbot
-  - pwd
   - bundle --full-index
   - bundle exec rake travis
   #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
