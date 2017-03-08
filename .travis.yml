@@ -27,5 +27,5 @@ branches:
 script:
   #- cd ./cookbooks/hangops-jobbot
   - bundle --full-index
-  - bundle exec rake travis
-  #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+  - bundle exec kitchen test -d always
+    #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
