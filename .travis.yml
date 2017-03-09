@@ -4,42 +4,34 @@ notifications:
   slack:
     secure: LiuCaSXhz0clGvt6daPWowfOjMatF5LS50zlo9PlXjdArVNVkq3dpEGh6O0isvyzqUm34UNw4Gqqug4pVSjWr1A4tgryDtBwLGsxJxMYc5XweEek6mDazR15Q7mdmdXApjn9jcB47A7uEKoT9UR39HxvZQVSrNN0yGIjZdSb/CqXETvo2FZ6cL4fF4UE7IwoL5/+KKlhn9PmABMPEx0tjrGfhCOHNNdv69kB3tAsdJQoZpiiIxKnsuJ4a1o5viy2J2hGG67nkTUYGnFwtRAlOn+QbUNZ2Mc3YNyB10eZ9rjls6ukRbiOVUD3fL9Hr3lRfs8kOTlrK2eUluFzc+maCH2MChsINsJev0lT7/HVZaJgG9RTuxOhZDvy6iZOhIH0W6Ofc1kbTos1oD2yys6/MmablAOIoJMx91QmaZMtFLC/o+iAd+ozJy4eY+YYJiySFniNcxq6lpc2QBF6ct36mibNqyCeU3NrBzyih8C1v8MBx91WTbwLpOh/pOvuB7Ap89DNAHeIeppYQ1yBCtRu8hbksWToiwxQVkXXJRMz98G/72TJ22naA9OsV0CLyTeKXnOgKXW73RR4zxyx/9o4hR36vnZ8cEVocYUWAGmHfrk8CzInLhzmogUZhlnyMHZjoz3SWQS4+FxgFdsZFLkwzl3U7luesBaOcC7bubtGWfs=
 sudo: required
-
 dist: trusty
-
 addons:
   apt:
     sources:
-      - chef-stable-trusty
+    - chef-stable-trusty
     packages:
-      - chefdk
-
-bundler_args: --without='vagrant'
-
+    - chefdk
+bundler_args: "--without='vagrant'"
 install:
-  - source start_docker.sh
-  - cd ./cookbooks/hangops-jobbot
-  - gem install bundler
-
+- source start_docker.sh
+- cd ./cookbooks/hangops-jobbot
+- gem install bundler
 branches:
   only:
-    - master
-
+  - master
 services: docker
-
 env:
-  - INSTANCE=ubuntu-1604
-
+- INSTANCE=ubuntu-1604
 before_script:
-  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/cookstyle --version
-  - /opt/chefdk/embedded/bin/foodcritic --version
-  - pwd
-
+- eval "$(/opt/chefdk/bin/chef shell-init bash)"
+- "/opt/chefdk/embedded/bin/chef --version"
+- "/opt/chefdk/embedded/bin/cookstyle --version"
+- "/opt/chefdk/embedded/bin/foodcritic --version"
+- pwd
 script:
-  #- cd ./cookbooks/hangops-jobbot
-  - pwd
-  - bundle --full-index
-  - bundle exec rake travis
-  #- KITCHEN_LOCAL_YAML=cookbooks/hangops-jobbot/.kitchen.travis.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+- pwd
+- bundle --full-index
+- bundle exec rake travis
+deploy:
+  api_key:
+    secure: KmVc1vnPd4Fx3XXTnWhyz3Z+Q/b+0gBWCjdttIBXJ5kHJAPDF7NEeehXjjqrhROCSuQ6pVFx766eY+wpTFDlxEG0jv0Zb0RmB1pPqoj17pdykojts56tfPG3pyWkAWyWsjGk1VT43jNk0F/L3/FH5PsT/SHKxpTbL3dSr8pz8mx/g8lBAN+ZoI6v9lOR5vzwM2sLgRALT7h8pn7JULxsifJ6ZGeTL4VvpLpopXEAl2o20y0ewgX3HiB7AFxQ6a0dxnW9eZK7IrKixGTZyUkrInirnk8vU1QOGK4Bzvdyv/8WVWkZuxkNLJMF/lma0omN9+MhPA4EcBLmps+WhmnV0niZoUygvUq7P9lUyJJ/3nFIHCweCmcHgkS+wvMFk/Qeizmb3TCbc1LJitr8xz1S1SL17m7qO/XNB/o/PqlcLhEI6WkRfNZLXXKrrKIBCv9M6cKr/H0nRncpuHurPwgZNTxsre0CXyRNVX6pEzq7N9M5B5v0s5gQShbU+10unUYssPEpvnDm1Rrwwpj3gapfLhhvjtXJG4K5X4zHzXipYwnaYRbsZi45ELhIYjwZWuQ1lst/VVKBv1YjRuHCz9eeFMJV0t7UGBw68IWRp0/S5aYH+4ICmTx/35Hq0azEpku4KoXwm70KLI5DPLCJ9jqlwyOaMfxXbvnFS+zuw9uMeM8=
