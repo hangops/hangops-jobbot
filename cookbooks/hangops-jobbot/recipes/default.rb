@@ -35,7 +35,7 @@ user 'sntxrr' do
 end
 
 # Clone the source code from GitHub.
-git '/srv/hubot' do
+git '/srv/hangops-jobbot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
   action :checkout
 end
@@ -59,15 +59,22 @@ cookbook_file '/etc/systemd/system/hubot.service' do
 end
 
 # drop the external-scripts.json file in place
-cookbook_file '/srv/hubot/external-scripts.json' do
+cookbook_file '/srv/hangops-jobbot/external-scripts.json' do
   source 'external-scripts.json'
   owner 'root'
   mode '0644'
 end
 
 # drop the hangops-jobbot.coffee file in place
-cookbook_file '/srv/hubot/hangops-jobbot.coffee' do
+cookbook_file '/srv/hangops-jobbot/scripts/hangops-jobbot.coffee' do
   source 'hangops-jobbot.coffee'
+  owner 'root'
+  mode '0644'
+end
+
+# drop the flip.coffee file in place
+cookbook_file '/srv/hangops-jobbot/scripts/flip.coffee' do
+  source 'flip.coffee'
   owner 'root'
   mode '0644'
 end
