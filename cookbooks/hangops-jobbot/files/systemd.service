@@ -19,7 +19,7 @@ Environment=HUBOT_SLACK_TOKEN=XXXXXX HUBOT_LOG_LEVEL="debug" REDIS_URL=redis://1
 
 ; "HUBOT_bbb='yyy yyy'"
 
-ExecStart=/srv/hubot/bin/hubot --adapter slack
+ExecStart=/srv/hangops-jobbot/bin/hubot --adapter slack
 ; --owner="Syntax Error <sntxrr+hangops@gmail.com>" --name="hangops-jobbot"
 
 [Install]
