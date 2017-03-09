@@ -37,10 +37,6 @@ before_script:
   - pwd
 
 script:
-  # Fake 'localhost' to go back to docker host
-  - sudo sed -e '/localhost/d' /etc/hosts > /var/tmp/hosts.new
-  - sudo cp /var/tmp/hosts.new /etc/hosts
-  - sudo echo "$(ip route | grep default | awk '{print $3}') localhost" >> /etc/hosts
   # Full Index to make some tetchy gems work
   - bundle --full-index
   # Run test suite
