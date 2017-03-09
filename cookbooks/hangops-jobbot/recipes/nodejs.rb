@@ -20,22 +20,22 @@ end
 
 # Run `npm install` to install dependencies
 execute 'install-dependencies' do
-  command 'cd /srv/hubot;sudo npm install'
+  command 'cd /srv/hangops-jobbot;sudo npm install'
 end
 
 # Install the Slack adapter
 execute 'install-hubot-slack' do
-  command 'cd /srv/hubot;sudo npm install hubot-slack --save'
+  command 'cd /srv/hangops-jobbot;sudo npm install hubot-slack --save'
 end
 
 # Install the Redis brain plugin
 execute 'install-hubot-redis-brain' do
-  command 'cd /srv/hubot;sudo npm install hubot-redis-brain --save'
+  command 'cd /srv/hangops-jobbot;sudo npm install hubot-redis-brain --save'
 end
 
 # Install Hubot diagnostics
 execute 'install-hubot-diagnostics' do
-  command 'cd /srv/hubot;sudo npm install hubot-diagnostics --save'
+  command 'cd /srv/hangops-jobbot;sudo npm install hubot-diagnostics --save'
 end
 
 # Ubuntu needs a symlink

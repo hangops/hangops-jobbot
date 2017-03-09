@@ -4,6 +4,8 @@ driver:
 
 platforms:
     - name: ubuntu-16.04
+      driver_config:
+        run_command: /sbin/init
 
 suites:
   - name: default
