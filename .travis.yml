@@ -17,7 +17,6 @@ addons:
 bundler_args: --without='vagrant'
 
 install:
-  - source start_docker.sh
   - cd ./cookbooks/hangops-jobbot
   - gem install bundler
 
