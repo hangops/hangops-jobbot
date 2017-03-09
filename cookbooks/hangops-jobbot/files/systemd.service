@@ -15,7 +15,7 @@ Restart=always
 RestartSec=10
 
 ; Configure Hubot environment variables, make sure to use quotes around whitespace as shown below.
-Environment=HUBOT_SLACK_TOKEN=xoxb-4392066883-c6KXQnqRUjqFhvwCsXCPzBvG HUBOT_LOG_LEVEL="debug" REDIS_URL=redis://127.0.0.1:6379/hangops-jobbot HUBOT_SLACK_BOTNAME=hangops-jobbot Hubot_SLACK_TEAM=hangops Hubot_SLACK_BOTNAME=hangops-jobbot
+Environment=HUBOT_SLACK_TOKEN=XXXXXX HUBOT_LOG_LEVEL="debug" REDIS_URL=redis://127.0.0.1:6379/hangops-jobbot HUBOT_SLACK_BOTNAME=hangops-jobbot Hubot_SLACK_TEAM=hangops Hubot_SLACK_BOTNAME=hangops-jobbot
 
 ; "HUBOT_bbb='yyy yyy'"
 
