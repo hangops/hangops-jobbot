@@ -41,3 +41,7 @@ script:
   - bundle --full-index
   # Run test suite
   - bundle exec rake travis
+
+deploy:
+   api_key:
+     secure: KmVc1vnPd4Fx3XXTnWhyz3Z+Q/b+0gBWCjdttIBXJ5kHJAPDF7NEeehXjjqrhROCSuQ6pVFx766eY+wpTFDlxEG0jv0Zb0RmB1pPqoj17pdykojts56tfPG3pyWkAWyWsjGk1VT43jNk0F/L3/FH5PsT/SHKxpTbL3dSr8pz8mx/g8lBAN+ZoI6v9lOR5vzwM2sLgRALT7h8pn7JULxsifJ6ZGeTL4VvpLpopXEAl2o20y0ewgX3HiB7AFxQ6a0dxnW9eZK7IrKixGTZyUkrInirnk8vU1QOGK4Bzvdyv/8WVWkZuxkNLJMF/lma0omN9+MhPA4EcBLmps+WhmnV0niZoUygvUq7P9lUyJJ/3nFIHCweCmcHgkS+wvMFk/Qeizmb3TCbc1LJitr8xz1S1SL17m7qO/XNB/o/PqlcLhEI6WkRfNZLXXKrrKIBCv9M6cKr/H0nRncpuHurPwgZNTxsre0CXyRNVX6pEzq7N9M5B5v0s5gQShbU+10unUYssPEpvnDm1Rrwwpj3gapfLhhvjtXJG4K5X4zHzXipYwnaYRbsZi45ELhIYjwZWuQ1lst/VVKBv1YjRuHCz9eeFMJV0t7UGBw68IWRp0/S5aYH+4ICmTx/35Hq0azEpku4KoXwm70KLI5DPLCJ9jqlwyOaMfxXbvnFS+zuw9uMeM8=
