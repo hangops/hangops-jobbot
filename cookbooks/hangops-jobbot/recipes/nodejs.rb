@@ -18,6 +18,12 @@ nodejs_npm 'coffeescript' do
   action :install
 end
 
+# Ubuntu needs a symlink
+# TODO: detect Ubuntu, and only do this if we're on Ubuntu
+link '/usr/bin/node' do
+  to '/usr/bin/nodejs'
+end
+
 # Run `npm install` to install dependencies
 execute 'install-dependencies' do
   command 'cd /srv/hangops-jobbot;sudo npm install'
@@ -38,8 +44,7 @@ execute 'install-hubot-diagnostics' do
   command 'cd /srv/hangops-jobbot;sudo npm install hubot-diagnostics --save'
 end
 
-# Ubuntu needs a symlink
-# TODO: detect Ubuntu, and only do this if we're on Ubuntu
-link '/usr/bin/node' do
-  to '/usr/bin/nodejs'
+# Install Hubot flip
+execute 'install-hubot-flip' do
+  command 'cd /srv/hangops-jobbot;sudo npm install hubot-flip --save'
 end
