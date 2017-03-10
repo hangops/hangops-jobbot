@@ -9,7 +9,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/srv/hangops-jobbot
-User=hubot
+User=root
 
 Restart=always
 RestartSec=10

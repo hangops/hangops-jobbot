@@ -66,18 +66,11 @@ cookbook_file '/srv/hangops-jobbot/external-scripts.json' do
 end
 
 # drop the hangops-jobbot.coffee file in place
-cookbook_file '/srv/hangops-jobbot/scripts/hangops-jobbot.coffee' do
-  source 'hangops-jobbot.coffee'
-  owner 'root'
-  mode '0644'
-end
-
-# drop the flip.coffee file in place
-cookbook_file '/srv/hangops-jobbot/scripts/flip.coffee' do
-  source 'flip.coffee'
-  owner 'root'
-  mode '0644'
-end
+#cookbook_file '/srv/hangops-jobbot/scripts/hangops-jobbot.coffee' do
+#  source 'hangops-jobbot.coffee'
+#  owner 'root'
+#  mode '0644'
+#end
 
 service 'systemctl' do
   supports reload: true
