@@ -72,23 +72,22 @@ end
 #   mode '0644'
 # end
 
-# Service declaration. TODO: change service establishment from systemd to runit
-# service 'systemctl' do
-#   supports reload: true
-# end
-#
-# service_provider = nil
-#
-# if 'ubuntu' == node['platform']
-#  if Chef::VersionConstraint.new('>= 15.04').include?(node['platform_version'])
-#    service_provider = Chef::Provider::Service::Systemd
-#  end
-# end
+# set some ENV vars for RUNIT
+node.override['hangops-jobbot']['config'] = {
+  'HUBOT_SLACK_TOKEN' => 'XXXXXX',
+  'HUBOT_LOG_LEVEL' => 'debug',
+  'REDIS_URL' => 'redis://127.0.0.1:6379/hangops-jobbot',
+  'HUBOT_SLACK_BOTNAME' => 'hangops-jobbot',
+  'HUBOT_SLACK_TEAM' => 'hangops'
+}
+
 #
 # service 'hubot' do
 #   provider service_provider
 #   supports restart: true, reload: true
 #   action [:enable, :start]
 # end
+
+include_recipe 'hangops-jobbot::_runit'
 
 # Do some more stuff, then notify hubot to start

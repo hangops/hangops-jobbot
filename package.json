@@ -21,5 +21,12 @@
   },
   "engines": {
     "node": "^4.2.x"
+  },
+  "main": "./index",
+  "bin": {
+    "hubot": "./bin/hubot"
+  },
+  "scripts": {
+    "test": "./script/test"
   }
 }
