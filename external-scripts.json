@@ -7,6 +7,5 @@
   "hubot-maps",
   "hubot-redis-brain",
   "hubot-rules",
-  "hubot-slack",
   "hubot-shipit"
 ]
