@@ -49,28 +49,8 @@ include_recipe 'runit::default'
 # Install Redis
 include_recipe 'redis::install_from_package'
 
-# drop the Hubot service file into place
-# TODO: need to get a databag going with encrypted values
-#       for the Slack API etc.
-# cookbook_file '/etc/systemd/system/hubot.service' do
-#   source 'systemd.service'
-#   owner 'root'
-#   mode '0600'
-# end
-
-# drop the external-scripts.json file in place
-cookbook_file '/srv/hangops-jobbot/external-scripts.json' do
-  source 'external-scripts.json'
-  owner 'root'
-  mode '0644'
-end
-
-# drop the hangops-jobbot.coffee file in place
-# cookbook_file '/srv/hangops-jobbot/scripts/hangops-jobbot.coffee' do
-#   source 'hangops-jobbot.coffee'
-#   owner 'root'
-#   mode '0644'
-# end
+# TODO: need to get a databag (or something else) going with
+#       encrypted values for the Slack API etc.
 
 # set some ENV vars for RUNIT
 node.override['hangops-jobbot']['config'] = {
@@ -81,13 +61,4 @@ node.override['hangops-jobbot']['config'] = {
   'HUBOT_SLACK_TEAM' => 'hangops'
 }
 
-#
-# service 'hubot' do
-#   provider service_provider
-#   supports restart: true, reload: true
-#   action [:enable, :start]
-# end
-
 include_recipe 'hangops-jobbot::_runit'
-
-# Do some more stuff, then notify hubot to start
