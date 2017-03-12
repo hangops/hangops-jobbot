@@ -49,46 +49,7 @@ include_recipe 'runit::default'
 # Install Redis
 include_recipe 'redis::install_from_package'
 
-# drop the Hubot service file into place
 # TODO: need to get a databag going with encrypted values
 #       for the Slack API etc.
-# cookbook_file '/etc/systemd/system/hubot.service' do
-#   source 'systemd.service'
-#   owner 'root'
-#   mode '0600'
-# end
-
-# drop the external-scripts.json file in place
-cookbook_file '/srv/hangops-jobbot/external-scripts.json' do
-  source 'external-scripts.json'
-  owner 'root'
-  mode '0644'
-end
-
-# drop the hangops-jobbot.coffee file in place
-# cookbook_file '/srv/hangops-jobbot/scripts/hangops-jobbot.coffee' do
-#   source 'hangops-jobbot.coffee'
-#   owner 'root'
-#   mode '0644'
-# end
-
-# Service declaration. TODO: change service establishment from systemd to runit
-# service 'systemctl' do
-#   supports reload: true
-# end
-#
-# service_provider = nil
-#
-# if 'ubuntu' == node['platform']
-#  if Chef::VersionConstraint.new('>= 15.04').include?(node['platform_version'])
-#    service_provider = Chef::Provider::Service::Systemd
-#  end
-# end
-#
-# service 'hubot' do
-#   provider service_provider
-#   supports restart: true, reload: true
-#   action [:enable, :start]
-# end
 
 # Do some more stuff, then notify hubot to start
