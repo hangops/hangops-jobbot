@@ -44,7 +44,8 @@ end
 include_recipe 'hangops-jobbot::nodejs'
 
 # Need to overwrite the middleware index.coffee due to an existing bug
-myvar = '/srv/hangops-jobbot/node_modules/hubot-slack-whitelist-middleware/src'
+myvar = '/srv/hangops-jobbot/node_modules/' \
+        'hubot-slack-whitelist-middleware/src/index.coffee'
 cookbook_file myvar do
   source 'index.coffee'
   mode '0644'
