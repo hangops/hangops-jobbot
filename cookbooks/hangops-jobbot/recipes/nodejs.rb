@@ -45,9 +45,9 @@ execute 'install-hubot-google-images' do
 end
 
 # Install hubot-google-translate
-vartr = 'cd /srv/hangops-jobbot;sudo npm install hubot-google-translate --save'
 execute 'install-hubot-google-translate' do
-  command vartr
+  command 'cd /srv/hangops-jobbot;' \
+          'sudo npm install hubot-google-translate --save'
 end
 
 # Install hubot-help
