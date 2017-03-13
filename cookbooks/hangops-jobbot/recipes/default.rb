@@ -50,5 +50,6 @@ include_recipe 'runit::default'
 include_recipe 'redis::install_from_package'
 
 # TODO: need to get a databag going with encrypted values
+#       for the Slack API etc.
 
 # Do some more stuff, then notify hubot to start

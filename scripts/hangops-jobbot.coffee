@@ -27,3 +27,4 @@ module.exports = (robot) ->
   robot.hear /to hire/i, (res) ->
     robot.logger.debug "I heard `to hire` so I'll remind now - text I hear is as follows: #{res.message.text}"
     res.reply "If you haven't already, feel free to pin your Job Description and add it to the Google Doc listed in the topic ---^"
+    
