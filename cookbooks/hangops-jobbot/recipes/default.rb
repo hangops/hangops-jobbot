@@ -41,7 +41,7 @@ user 'deploy' do
 end
 
 # make sure deployment user has sudo
-group "create deploy sudo" do
+group 'create deploy sudo' do
   group_name 'sudo'
   members 'deploy'
   action :modify
