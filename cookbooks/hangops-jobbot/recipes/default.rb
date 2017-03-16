@@ -34,6 +34,20 @@ user 'sntxrr' do
   non_unique false
 end
 
+# Create the deployment user
+user 'deploy' do
+  action :create
+  non_unique false
+end
+
+# make sure deployment user has sudo
+group 'create deploy sudo' do
+  group_name 'sudo'
+  members 'deploy'
+  action :modify
+  append true
+end
+
 # Clone the source code from GitHub.
 git '/srv/hangops-jobbot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
