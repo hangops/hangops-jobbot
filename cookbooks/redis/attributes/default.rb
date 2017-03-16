@@ -19,14 +19,14 @@ default[:groups]['redis'][:gid]      = 335
 # Server
 #
 
-default[:redis][:server][:addr]     = "0.0.0.0"
+default[:redis][:server][:addr]     = "127.0.0.1"
 default[:redis][:server][:port]     = "6379"
 
 #
 # Install
 #
 
-default[:redis][:version]           = "2.0.2"
+default[:redis][:version]           = "3.2.8"
 default[:redis][:release_url]       = "http://redis.googlecode.com/files/redis-:version:.tar.gz"
 
 #

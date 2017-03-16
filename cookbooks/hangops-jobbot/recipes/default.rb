@@ -34,6 +34,20 @@ user 'sntxrr' do
   non_unique false
 end
 
+# Create the deployment user
+user 'deploy' do
+  action :create
+  non_unique false
+end
+
+# make sure deployment user has sudo
+group 'create deploy sudo' do
+  group_name 'sudo'
+  members 'deploy'
+  action :modify
+  append true
+end
+
 # Clone the source code from GitHub.
 git '/srv/hangops-jobbot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
@@ -42,6 +56,16 @@ end
 
 # Install nodejs and hubot dependencies
 include_recipe 'hangops-jobbot::nodejs'
+
+# Need to overwrite the middleware index.coffee due to an existing bug
+myvar = '/srv/hangops-jobbot/node_modules/' \
+        'hubot-slack-whitelist-middleware/src/index.coffee'
+cookbook_file myvar do
+  source 'index.coffee'
+  mode '0644'
+  owner 'root'
+  group 'root'
+end
 
 # Install Runit
 include_recipe 'runit::default'
@@ -60,5 +84,8 @@ node.override['hangops-jobbot']['config'] = {
   'HUBOT_SLACK_BOTNAME' => 'hangops-jobbot',
   'HUBOT_SLACK_TEAM' => 'hangops'
 }
+
+# TODO: need to get a databag going with encrypted values
+#       for the Slack API etc.
 
 include_recipe 'hangops-jobbot::_runit'
