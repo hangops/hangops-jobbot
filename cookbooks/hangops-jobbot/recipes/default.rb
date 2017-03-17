@@ -73,7 +73,19 @@ include_recipe 'runit::default'
 # Install Redis
 include_recipe 'redis::install_from_package'
 
+# TODO: need to get a databag (or something else) going with
+#       encrypted values for the Slack API etc.
+
+# set some ENV vars for RUNIT
+node.override['hangops-jobbot']['config'] = {
+  'HUBOT_SLACK_TOKEN' => 'XXXXXX',
+  'HUBOT_LOG_LEVEL' => 'debug',
+  'REDIS_URL' => 'redis://127.0.0.1:6379/hangops-jobbot',
+  'HUBOT_SLACK_BOTNAME' => 'hangops-jobbot',
+  'HUBOT_SLACK_TEAM' => 'hangops'
+}
+
 # TODO: need to get a databag going with encrypted values
 #       for the Slack API etc.
 
-# Do some more stuff, then notify hubot to start
+include_recipe 'hangops-jobbot::_runit'

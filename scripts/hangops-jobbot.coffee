@@ -1,6 +1,7 @@
 module.exports = (robot) ->
 
   robot.hear /gdoc/i, (res) ->
+    # TODO: figure out who last posted a link and @<username> message them
     robot.logger.debug "Received Google document remind message will remind #{res.message.text}"
     res.send "If you haven't already, feel free to pin your Job Description and add it to the Google Doc listed in the topic ---^"
 
