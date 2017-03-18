@@ -57,16 +57,6 @@ end
 # Install nodejs and hubot dependencies
 include_recipe 'hangops-jobbot::nodejs'
 
-# Need to overwrite the middleware index.coffee due to an existing bug
-myvar = '/srv/hangops-jobbot/node_modules/' \
-        'hubot-slack-whitelist-middleware/src/index.coffee'
-cookbook_file myvar do
-  source 'index.coffee'
-  mode '0644'
-  owner 'root'
-  group 'root'
-end
-
 # Install Runit
 include_recipe 'runit::default'
 
