@@ -19,7 +19,7 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^4.3.3",
-    "hubot-slack-whitelist-middleware": "^1.0.0"
+    "hubot-slack-whitelist-middleware": "file:vendor/hubot-slack-whitelist-middleware"
   },
   "engines": {
     "node": "^4.2.x"
