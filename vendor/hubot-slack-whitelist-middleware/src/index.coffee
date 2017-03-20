@@ -18,8 +18,11 @@ module.exports = (robot) ->
     robot.logger.error 'whitelist is not an array!'
 
   robot.receiveMiddleware (context, next, done) ->
+    # Get channel name from client's cache (https://github.com/slackapi/hubot-slack/issues/328)
+    channelName = robot.adapter.client.rtm.dataStore.getChannelGroupOrDMById(reach(context, 'response.envelope.room')).name
+
     # Unless the room is in the whitelist
-    unless reach(context, 'response.envelope.room') in whitelist
+    unless channelName in whitelist
       # We're done
       context.response.message.finish()
       done()

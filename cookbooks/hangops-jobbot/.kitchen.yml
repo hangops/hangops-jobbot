@@ -3,9 +3,12 @@ driver:
   name: vagrant
   customize:
         cableconnected1: 'on'
+  network:
+    - ["forwarded_port", {guest: 8080, host: 8081}]
 
 provisioner:
   name: chef_solo
+  data_bags_path: './test/integration/data_bags/'
 
 platforms:
   - name: ubuntu-16.04

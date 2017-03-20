@@ -6,18 +6,8 @@
   "description": "Bot designed to help in Hangops #job_board room",
   "dependencies": {
     "hubot": "^2.19.0",
-    "hubot-diagnostics": "0.0.1",
     "hubot-flip": "^2.17.0",
-    "hubot-google-images": "^0.2.6",
-    "hubot-google-translate": "^0.2.0",
-    "hubot-help": "^0.2.0",
-    "hubot-heroku-keepalive": "^1.0.2",
-    "hubot-maps": "0.0.2",
-    "hubot-pugme": "^0.1.0",
     "hubot-redis-brain": "0.0.3",
-    "hubot-rules": "^0.1.1",
-    "hubot-scripts": "^2.17.2",
-    "hubot-shipit": "^0.2.0",
     "hubot-slack": "^4.3.3",
     "hubot-slack-whitelist-middleware": "file:vendor/hubot-slack-whitelist-middleware"
   },
