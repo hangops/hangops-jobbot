@@ -39,11 +39,6 @@ execute 'install-hubot-redis-brain' do
   command 'cd /srv/hangops-jobbot;sudo npm install hubot-redis-brain --save'
 end
 
-# Install hubot-scripts
-execute 'install-hubot-scripts' do
-  command 'cd /srv/hangops-jobbot;sudo npm install hubot-scripts --save'
-end
-
 # Install hubot-slack
 execute 'install-hubot-slack' do
   command 'cd /srv/hangops-jobbot;sudo npm install hubot-slack --save'
@@ -52,5 +47,8 @@ end
 # Install hubot-slack-whitelist-middleware
 execute 'install-hubot-slack-whitelist-middleware' do
   command 'cd /srv/hangops-jobbot;' \
-          'sudo npm install hubot-slack-whitelist-middleware --save'
+          'sudo npm install' \
+          'https://github.com/rrxtns/hangops-jobbot/' \
+          'tree/master/vendor/' \
+          'hubot-slack-whitelist-middleware --save'
 end

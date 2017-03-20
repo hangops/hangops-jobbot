@@ -64,7 +64,7 @@ include_recipe 'runit::default'
 include_recipe 'redis::install_from_package'
 
 # get databag data
-varapikey = data_bag('slackapikey')
+varapikey = data_bag_item('slackapikey', 'slackapikey')
 
 # set some ENV vars for RUNIT
 node.override['hangops-jobbot']['config'] = {

@@ -8,7 +8,7 @@ driver:
 
 provisioner:
   name: chef_solo
-  data_bags_path: './test/integration/data_bags/slackapikey'
+  data_bags_path: './test/integration/data_bags/'
 
 platforms:
   - name: ubuntu-16.04
