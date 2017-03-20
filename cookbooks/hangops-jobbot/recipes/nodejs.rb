@@ -48,6 +48,6 @@ end
 execute 'install-hubot-slack-whitelist-middleware' do
   command 'cd /srv/hangops-jobbot;' \
           'sudo npm install ' \
-          '/srv/hangops-jobbot/vendor/hubot-slack-whitelist-middleware/' \
+          '/srv/hangops-jobbot/vendor/' \
           'hubot-slack-whitelist-middleware --save'
 end
