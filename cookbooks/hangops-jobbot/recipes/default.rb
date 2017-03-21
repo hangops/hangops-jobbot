@@ -49,10 +49,11 @@ group 'create deploy sudo' do
 end
 
 # Clone the source code from GitHub.
+#
+# action: defaults to sync (sync each time)
+# revision: defaults to whatever is set on GitHub
 git '/srv/hangops-jobbot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
-  revision 'master'
-  action :sync
 end
 
 # Install nodejs and hubot dependencies
