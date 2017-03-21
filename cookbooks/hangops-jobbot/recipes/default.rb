@@ -51,7 +51,8 @@ end
 # Clone the source code from GitHub.
 git '/srv/hangops-jobbot' do
   repository 'https://github.com/rrxtns/hangops-jobbot.git'
-  action :checkout
+  revision 'master'
+  action :sync
 end
 
 # Install nodejs and hubot dependencies
