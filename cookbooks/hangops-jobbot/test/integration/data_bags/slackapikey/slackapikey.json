@@ -1,7 +1,0 @@
-{
-  "id": "slackapikey",
-  "environment": {
-    "test": "xoxb-REDACTED",
-    "prod": "xoxb-REDACTED"
-  }
-}
