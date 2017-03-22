@@ -1,7 +1,7 @@
 {
   "id": "slackapikey",
-  "slack-teams": {
-    "sntxrr": "xoxb-REDACTED",
-    "hangops": "xoxb-REDACTED"
+  "environment": {
+    "test": "xoxb-REDACTED",
+    "prod": "xoxb-REDACTED"
   }
 }
