@@ -5,6 +5,12 @@ driver:
 platforms:
     - name: ubuntu-16.04
 
+provisioner:
+  name: chef_solo
+  data_bags_path: './test/integration/data_bags/'
+  solo_rb:
+    environment: test
+
 suites:
   - name: default
     run_list:
