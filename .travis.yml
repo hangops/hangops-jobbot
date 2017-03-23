@@ -33,9 +33,6 @@ env:
   - secure: "UsxtdhtRk9P2Jvi6JbjmVRKBjvttOZikNZAATO7tr2twsU6376VLXhJ3jHb4gNmq8/bDOhXWPzSIUFVTUU9jNdfcUnp0Xiuo89UTdKAti1t4fvU/vCqentmt0qJx1JBJnzO9asI0hLfwyP8oGlXdushMPWNUt72TN689PsFdqoZ9Jp7QQ5dF4JvUVth1LlCnx7N6gVtfYvqdj2XmPF2EfBfqe9GnJUGLStmJb9Ma0gW1xCYBy/GqBWORE97ITnVkAcZAdKw8WypA7ZF3gbU0ce15iL8rElHm3m8KF0g3e7aLm1X0QBljk59fc28R83xXhsQ0ZyVXUg8Exos9xQv07C55xQV0rX0WSeRHC7xoJIavNBmqqSNNQ2duFXsOMQZQG5M6khMvGNWhemITwyK5AHMebMPMrHXlZmI/gsRUvVe/7pShSEvrFESdF6jMAZtycfobwk22Qc5tUl0/u/056ic4hqu/t52ww2UIKf7o6nc484FMYZ6Z8ZlHXE4VjqqS6akgQhnkZTbsDWfLiUXYCHv6wSi1IAxiHG8oDz7oYfQvzmdnBDhmEfFW4IXEHAjXXHq3C4gfJAdVv/kQcUgjCeHugc5MwR2rOcEl9QnnaEywuip88Q00EeIpu274sdOTBfm9nF9aHS5MWaKGWfZ/ZJsJuWgAqu/As="
   - INSTANCE=default-ubuntu-1604
 
-before_install:
-      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
 before_script:
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
   - /opt/chefdk/embedded/bin/chef --version
@@ -48,6 +45,9 @@ script:
   - bundle --full-index
   # Run test suite
   - bundle exec rake travis
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 deploy:
   provider: script
