@@ -79,7 +79,7 @@ node.override['hangops-jobbot']['config'] = {
   'HUBOT_RATE_LIMIT_SILENT' => 'false',
   'HUBOT_RATE_LIMIT_NOTIFY_PERIOD' => '30',
   'HUBOT_RATE_LIMIT_CMD_PERIOD' => '0',
-  'HUBOT_RATE_LIMIT_NOTIFY_MSG' => 'you are being rate limited for being chatty!'
+  'HUBOT_RATE_LIMIT_NOTIFY_MSG' => 'rate limiting in effect!'
 }
 
 include_recipe 'hangops-jobbot::_runit'
