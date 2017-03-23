@@ -1,5 +1,6 @@
 [
   "hubot-flip",
   "hubot-redis-brain",
-  "hubot-slack-whitelist-middleware"
+  "hubot-slack-whitelist-middleware",
+  "hubot-rate-limit"
 ]
