@@ -27,7 +27,14 @@ branches:
 services: docker
 
 env:
+  global:
+  # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+  #   via the "travis encrypt" command using the project repo's public key
+  - secure: "UsxtdhtRk9P2Jvi6JbjmVRKBjvttOZikNZAATO7tr2twsU6376VLXhJ3jHb4gNmq8/bDOhXWPzSIUFVTUU9jNdfcUnp0Xiuo89UTdKAti1t4fvU/vCqentmt0qJx1JBJnzO9asI0hLfwyP8oGlXdushMPWNUt72TN689PsFdqoZ9Jp7QQ5dF4JvUVth1LlCnx7N6gVtfYvqdj2XmPF2EfBfqe9GnJUGLStmJb9Ma0gW1xCYBy/GqBWORE97ITnVkAcZAdKw8WypA7ZF3gbU0ce15iL8rElHm3m8KF0g3e7aLm1X0QBljk59fc28R83xXhsQ0ZyVXUg8Exos9xQv07C55xQV0rX0WSeRHC7xoJIavNBmqqSNNQ2duFXsOMQZQG5M6khMvGNWhemITwyK5AHMebMPMrHXlZmI/gsRUvVe/7pShSEvrFESdF6jMAZtycfobwk22Qc5tUl0/u/056ic4hqu/t52ww2UIKf7o6nc484FMYZ6Z8ZlHXE4VjqqS6akgQhnkZTbsDWfLiUXYCHv6wSi1IAxiHG8oDz7oYfQvzmdnBDhmEfFW4IXEHAjXXHq3C4gfJAdVv/kQcUgjCeHugc5MwR2rOcEl9QnnaEywuip88Q00EeIpu274sdOTBfm9nF9aHS5MWaKGWfZ/ZJsJuWgAqu/As="
   - INSTANCE=default-ubuntu-1604
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 before_script:
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
@@ -41,3 +48,22 @@ script:
   - bundle --full-index
   # Run test suite
   - bundle exec rake travis
+
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  on:
+    branch: master
+
+#  after_success: "./deploy.sh"
+
+addons:
+  coverity_scan:
+    project:
+      name: "rrxtns/hangops-jobbot"
+      description: "A bot for Hangops #job_board channel"
+    notification_email: sntxrr+github@gmail.com
+    build_command_prepend: ""
+    build_command:   ""
+    branch_pattern: coverity_scan
+    
