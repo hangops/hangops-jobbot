@@ -51,3 +51,9 @@ execute 'install-hubot-slack-whitelist-middleware' do
           '/srv/hangops-jobbot/vendor/' \
           'hubot-slack-whitelist-middleware --save'
 end
+
+# Install hubot-rate-limit
+execute 'install-rate-limit' do
+  command 'cd /srv/hangops-jobbot;' \
+  'npm install hubot-rate-limit --save'
+end
