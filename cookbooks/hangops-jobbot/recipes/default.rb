@@ -75,7 +75,11 @@ node.override['hangops-jobbot']['config'] = {
   'REDIS_URL' => 'redis://127.0.0.1:6379/hangops-jobbot',
   'HUBOT_SLACK_BOTNAME' => 'hangops-jobbot',
   'HUBOT_SLACK_TEAM' => 'hangops',
-  'HUBOT_WHITELIST' => 'job_board,job_board_botbuild,hangops-jobbot-test'
+  'HUBOT_WHITELIST' => 'job_board,job_board_botbuild,hangops-jobbot-test',
+  'HUBOT_RATE_LIMIT_SILENT' => 'false',
+  'HUBOT_RATE_LIMIT_NOTIFY_PERIOD' => '30',
+  'HUBOT_RATE_LIMIT_CMD_PERIOD' => '0',
+  'HUBOT_RATE_LIMIT_NOTIFY_MSG' => 'rate limiting in effect!'
 }
 
 include_recipe 'hangops-jobbot::_runit'

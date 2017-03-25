@@ -9,7 +9,8 @@
     "hubot-flip": "^2.17.0",
     "hubot-redis-brain": "0.0.3",
     "hubot-slack": "^4.3.3",
-    "hubot-slack-whitelist-middleware": "file:vendor/hubot-slack-whitelist-middleware"
+    "hubot-slack-whitelist-middleware": "file:vendor/hubot-slack-whitelist-middleware",
+    "hubot-rate-limit": "^1.0.1"
   },
   "engines": {
     "node": "^4.2.x"
