@@ -15,6 +15,12 @@ group :travis do
 end
 
 group :local do
-  gem 'kitchen-vagrant', '~> 0.19.0'
+  gem 'test-kitchen', '~> 1.4'
   gem 'vagrant-wrapper'
+  gem 'kitchen-docker_cli'
 end
+
+#group :local do
+#  gem 'kitchen-vagrant', '~> 0.19.0'
+#  gem 'vagrant-wrapper'
+#end

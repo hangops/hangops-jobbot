@@ -18,7 +18,6 @@
 #
 
 service 'runit' do
-   sv_bin 'sleep 5 && /usr/bin/sv'
   action :nothing
 end
 
