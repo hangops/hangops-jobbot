@@ -3,7 +3,7 @@ driver:
   name: docker
 
 platforms:
-    name: ubuntu-16.04
+  - name: ubuntu-16.04
     driver_config:
       privileged: true
       run_command: /bin/systemd
