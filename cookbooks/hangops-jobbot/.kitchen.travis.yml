@@ -10,7 +10,13 @@ provisioner:
   data_bags_path: './test/integration/data_bags/'
   solo_rb:
     environment: test
-
+  privileged: true
+  run_command: /bin/systemd
+  provision_command:
+    - rm -f /etc/service/sshd/down
+    - apt-get install net-tools
+    - mkdir -p /var/log/chef
+        
 suites:
   - name: default
     run_list:
