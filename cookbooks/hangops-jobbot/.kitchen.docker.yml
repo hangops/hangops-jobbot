@@ -1,8 +1,12 @@
 ---
 driver:
-  name: vagrant
-  network:
-    - ["forwarded_port", {guest: 8080, host: 8081}]
+  name: docker
+  run_command: /sbin/init
+
+platforms:
+    - name: ubuntu-16.04
+
+use_sudo: false
 
 provisioner:
   name: chef_solo
@@ -10,11 +14,7 @@ provisioner:
   solo_rb:
     environment: test
 
-platforms:
-  - name: ubuntu-16.04
-
 suites:
   - name: default
     run_list:
       - recipe[hangops-jobbot::default]
-    attributes:
