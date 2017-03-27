@@ -82,4 +82,6 @@ node.override['hangops-jobbot']['config'] = {
   'HUBOT_RATE_LIMIT_NOTIFY_MSG' => 'rate limiting in effect!'
 }
 
+include_recipe 'runit'
+
 include_recipe 'hangops-jobbot::_runit'
