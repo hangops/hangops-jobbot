@@ -71,7 +71,7 @@ varapikey = data_bag_item('slackapikey', node.chef_environment)
 # set some ENV vars for RUNIT
 node.override['hangops-jobbot']['config'] = {
   'HUBOT_SLACK_TOKEN' => varapikey['key'],
-  'HUBOT_LOG_LEVEL' => 'debug',
+  'HUBOT_LOG_LEVEL' => 'info',
   'REDIS_URL' => 'redis://127.0.0.1:6379/hangops-jobbot',
   'HUBOT_SLACK_BOTNAME' => 'hangops-jobbot',
   'HUBOT_SLACK_TEAM' => 'hangops',
