@@ -13,7 +13,7 @@ module.exports = (robot) ->
       return
 
     channel = robot.adapter.client.rtm.dataStore.getChannelById(res.user.room)
-    if !channel.members.find((id) -> id == user.id)
+    if channel.members.find((id) -> id == user.id) !== undefined
       robot.logger.debug "Told to remind #{targetuser} about the gdoc, but ehy are not in this room."
       return
 
