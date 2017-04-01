@@ -14,7 +14,7 @@ module.exports = (robot) ->
 
     channel = robot.adapter.client.rtm.dataStore.getChannelById(res.user.room)
     if channel.members.find((id) -> id == user.id) !== undefined
-      robot.logger.debug "Told to remind #{targetuser} about the gdoc, but ehy are not in this room."
+      robot.logger.debug "Told to remind #{targetuser} about the gdoc, but they are not in this room."
       return
 
     robot.logger.debug "Received targetted Google document remind message will remind #{res.message.text}"
