@@ -1,0 +1,11 @@
+version: '2'
+services:
+  redis:
+    image: redis
+    expose:
+      - '6379'
+
+  app:
+    build: .
+    depends_on:
+      - redis

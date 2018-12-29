@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    build: .
+    depends_on:
+      - redis
+    user: root
+    env_file: .env
+    volumes:
+      - '/node_modules'
+      - '.:/service/'
