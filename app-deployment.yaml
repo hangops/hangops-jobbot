@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: app
+  name: hangbot
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: app
+    spec:
+      containers:
+      - image: docker.io/sntxrr/hangops-jobbot
+        name: hangops-jobbot
+        resources: {}
+        env:
+          - name: HUBOT_SLACK_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: hangbot-secret
+                key: HUBOT_SLACK_TOKEN
+          - name: HUBOT_LOG_LEVEL
+            value: "debug"
+          - name: REDIS_URL
+            value: "redis://redis:6379/hangops-jobbot"
+          - name: HUBOT_SLACK_BOTNAME
+            value: "hangops-jobbot"
+          - name: HUBOT_SLACK_TEAM
+            value: "hangops"
+          - name: HUBOT_WHITELIST
+            value: "job_board,job_board_botbuild,hangops-jobbot-test"
+          - name: HUBOT_RATE_LIMIT_SILENT
+            value: "false"
+          - name: HUBOT_RATE_LIMIT_NOTIFY_PERIOD
+            value: "30"
+          - name: HUBOT_RATE_LIMIT_CMD_PERIOD
+            value: "0"
+          - name: HUBOT_RATE_LIMIT_NOTIFY_MSG
+            value: "rate limiting in effect!"
+      restartPolicy: Always
+status: {}
