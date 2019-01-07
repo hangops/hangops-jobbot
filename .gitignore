@@ -59,3 +59,11 @@ $RECYCLE.BIN/
 
 # Visual Studio Code
 .vscode/*
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Docker
+docker-compose.override.yml

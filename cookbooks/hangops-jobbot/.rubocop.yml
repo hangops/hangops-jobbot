@@ -1,4 +1,0 @@
-AllCops:
-  Exclude:
-    - lib/kitchen/driver/*
-    - lib/kitchen/driver/docker/*
