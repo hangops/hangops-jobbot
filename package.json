@@ -23,7 +23,7 @@
     "hubot-redis-brain": ">= 0.0.4",
     "hubot-slack": ">= 4.3.4",
     "hubot-slack-api": "^2.2.0",
-    "hubot-slack-whitelist-middleware": "file:./scripts/vendor/hubot-slack-whitelist-middleware"
+    "hoek": "^6.0.0"
   },
   "engines": {
     "node": ">= 6.2.2",

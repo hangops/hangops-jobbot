@@ -66,4 +66,5 @@ $RECYCLE.BIN/
 .terraform/
 
 # Docker
+.env
 docker-compose.override.yml

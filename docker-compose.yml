@@ -5,7 +5,7 @@ services:
     expose:
       - '6379'
 
-  app:
+  hangops-jobbot:
     build: .
     depends_on:
       - redis
