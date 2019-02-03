@@ -19,7 +19,7 @@ resource "aws_security_group" "sntxrr-cluster" {
 #           to the Kubernetes. You will need to replace A.B.C.D below with
 #           your real IP. Services like icanhazip.com can help you find this.
 resource "aws_security_group_rule" "sntxrr-cluster-ingress-workstation-https" {
-  cidr_blocks       = ["71.212.138.191/32"]
+  cidr_blocks       = ["A.B.C.D/32"]
   description       = "Allow workstation to communicate with the cluster API Server"
   from_port         = 443
   protocol          = "tcp"
