@@ -29,7 +29,7 @@ resource "aws_launch_configuration" "sntxrr" {
   associate_public_ip_address = true
   iam_instance_profile        = "${aws_iam_instance_profile.sntxrr-node.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
-  instance_type               = "m4.large"
+  instance_type               = "t2.nano"
   name_prefix                 = "terraform-eks-sntxrr"
   security_groups             = ["${aws_security_group.sntxrr-node.id}"]
   user_data_base64            = "${base64encode(local.sntxrr-node-userdata)}"

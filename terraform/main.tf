@@ -1,6 +1,10 @@
+provider "aws" {
+  region     = "us-east-1"
+}
+
 resource "aws_eks_cluster" "sntxrr" {
-  name            = "${var.cluster-name}"
-  role_arn        = "${aws_iam_role.sntxrr-cluster.arn}"
+  name     = "${var.cluster-name}"
+  role_arn = "${aws_iam_role.sntxrr-cluster.arn}"
 
   vpc_config {
     security_group_ids = ["${aws_security_group.sntxrr-cluster.id}"]
@@ -12,5 +16,3 @@ resource "aws_eks_cluster" "sntxrr" {
     "aws_iam_role_policy_attachment.sntxrr-cluster-AmazonEKSServicePolicy",
   ]
 }
-
-
