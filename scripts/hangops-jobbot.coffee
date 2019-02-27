@@ -2,7 +2,7 @@ module.exports = (robot) ->
 
   robot.hear /is hiring|to hire|re hiring/i, (res) ->
     robot.logger.debug "I heard: #{res.message.text} - so I'll remind now"
-    res.reply "If you haven't already, feel free to pin your job description and add it to the Google Doc listed in the topic ---^\n(I've included a direct link for your convenience: https://docs.google.com/spreadsheets/d/1rtHao8rpI2aRA678ASQK-7NXpHcumd4LQGTtq5y7AiE)"
+    res.reply "If you haven't already, feel free to pin your job description and add it via the Google form listed in the topic ---^\n(I've included a direct link for your convenience: https://bit.ly/2Iv436W)\nView jobs at: https://bit.ly/2EsFzXS"
 
   robot.hear /gdoc (.*)?/i, (res) ->
     targetuser = res.match[1]
