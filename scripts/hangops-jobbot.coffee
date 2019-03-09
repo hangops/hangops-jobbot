@@ -1,8 +1,14 @@
 module.exports = (robot) ->
 
   robot.hear /is hiring|to hire|re hiring|is looking for|am hiring/i, (res) ->
-    robot.logger.debug "I heard: #{res.message.text} - so I'll remind now"
-    res.reply "If you haven't already, feel free to pin your job description and add it via the Google form listed in the topic ---^\n(I've included a direct link for your convenience: https://bit.ly/2Iv436W)\nView jobs at: https://bit.ly/2EsFzXS"
+    robot.logger.debug "I heard: #{res.message.text} - so I'll remind in a DM now"
+    if res.message.thread_ts?
+      # The incoming message was inside a thread, responding normally will continue the thread
+      res.send "If you haven't already, feel free to pin your job description and add it via the Google form listed in the topic ---^\n(I've included a direct link for your convenience: https://bit.ly/2Iv436W)\nView jobs at: https://bit.ly/2EsFzXS"
+    else
+      # The incoming message was not inside a thread, so lets respond by creating a new thread
+      res.message.thread_ts = res.message.rawMessage.ts
+      res.send "If you haven't already, feel free to pin your job description and add it via the Google form listed in the topic ---^\n(I've included a direct link for your convenience: https://bit.ly/2Iv436W)\nView jobs at: https://bit.ly/2EsFzXS"
 
   robot.hear /gdoc (.*)?/i, (res) ->
     targetuser = res.match[1]
