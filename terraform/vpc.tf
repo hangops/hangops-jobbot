@@ -7,8 +7,8 @@ resource "aws_vpc" "sntxrr" {
 
   tags = "${
     map(
-     "Name", "terraform-eks-sntxrr-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "shared",
+      "Name", "terraform-eks-sntxrr-node",
+      "kubernetes.io/cluster/${var.cluster-name}", "shared",
     )
   }"
 }
@@ -22,8 +22,8 @@ resource "aws_subnet" "sntxrr" {
 
   tags = "${
     map(
-     "Name", "terraform-eks-sntxrr-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "shared",
+      "Name", "terraform-eks-sntxrr-node",
+      "kubernetes.io/cluster/${var.cluster-name}", "shared",
     )
   }"
 }

@@ -43,8 +43,8 @@ resource "aws_security_group" "sntxrr-node" {
 
   tags = "${
     map(
-     "Name", "terraform-eks-sntxrr-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "owned",
+      "Name", "terraform-eks-sntxrr-node",
+      "kubernetes.io/cluster/${var.cluster-name}", "owned",
     )
   }"
 }
